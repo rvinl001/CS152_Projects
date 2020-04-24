@@ -10,7 +10,7 @@ We use the flex tool to generate a lexical analyzer for a high-level source code
 - Example: compile your lexical analyzer into the executable lexer with the following command: gcc -o lexer lex.yy.c -lfl. The program lexer should now be able to convert an inputted MINI-L program into the corresponding list of tokens.
 
 **The MINI-L Source Code Language**
-[The MINI-L Source Code Language.pdf](https://github.com/rvinl001/CS152_Projects/blob/master/Phase1:%20Lexical%20Analyzer/The%20MINI-L%20Source%20Code%20Language.pdf)
+[The MINI-L Source Code Language](https://github.com/rvinl001/CS152_Projects/blob/master/Phase1:%20Lexical%20Analyzer/The%20MINI-L%20Source%20Code%20Language.pdf)
 
 **Expected Output Format**
 [Output Format for Lexical Analyzer.pdf](https://github.com/rvinl001/CS152_Projects/blob/master/Phase1:%20Lexical%20Analyzer/Output%20Format%20for%20Lexical%20Analyzer.pdf)
