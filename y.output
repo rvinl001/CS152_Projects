@@ -1,0 +1,163 @@
+Nonterminals useless in grammar
+
+   dec
+   state
+   string
+
+
+Terminals unused in grammar
+
+   L_PAREN
+   R_PAREN
+   EQ
+   NEQ
+   LT
+   GT
+   END_PARAMS
+   SEMICOLON
+   COLON
+   COMMA
+   L_SQ_BRACKET
+   MOD
+   R_SQ_BRACKET
+   FUNCTION
+   BEGIN_PARAMS
+   WHILE
+   BEGIN_LOCALS
+   END_LOCALS
+   BEGIN_BODY
+   END_BODY
+   INTEGER
+   ARRAY
+   OF
+   IF
+   THEN
+   ENDIF
+   ELSE
+   DIV
+   DO
+   BEGINLOOP
+   ENDLOOP
+   CONTINUE
+   READ
+   WRITE
+   AND
+   OR
+   NOT
+   TRUE
+   RETURN
+   ADD
+   SUB
+   MULT
+   LTE
+   GTE
+   INDENTIFIER
+   NUMBER
+   ASSIGN
+   FALSE
+   ERRTOK
+
+
+Grammar
+
+    0 $accept: prog_start $end
+
+    1 prog_start: program
+
+    2 program: %empty
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+L_PAREN (258)
+R_PAREN (259)
+EQ (260)
+NEQ (261)
+LT (262)
+GT (263)
+END_PARAMS (264)
+SEMICOLON (265)
+COLON (266)
+COMMA (267)
+L_SQ_BRACKET (268)
+MOD (269)
+R_SQ_BRACKET (270)
+FUNCTION (271)
+BEGIN_PARAMS (272)
+WHILE (273)
+BEGIN_LOCALS (274)
+END_LOCALS (275)
+BEGIN_BODY (276)
+END_BODY (277)
+INTEGER (278)
+ARRAY (279)
+OF (280)
+IF (281)
+THEN (282)
+ENDIF (283)
+ELSE (284)
+DIV (285)
+DO (286)
+BEGINLOOP (287)
+ENDLOOP (288)
+CONTINUE (289)
+READ (290)
+WRITE (291)
+AND (292)
+OR (293)
+NOT (294)
+TRUE (295)
+RETURN (296)
+ADD (297)
+SUB (298)
+MULT (299)
+LTE (300)
+GTE (301)
+INDENTIFIER (302)
+NUMBER (303)
+ASSIGN (304)
+FALSE (305)
+ERRTOK (306)
+
+
+Nonterminals, with rules where they appear
+
+$accept (52)
+    on left: 0
+prog_start (53)
+    on left: 1, on right: 0
+program (54)
+    on left: 2, on right: 1
+
+
+State 0
+
+    0 $accept: . prog_start $end
+
+    $default  reduce using rule 2 (program)
+
+    prog_start  go to state 1
+    program     go to state 2
+
+
+State 1
+
+    0 $accept: prog_start . $end
+
+    $end  shift, and go to state 3
+
+
+State 2
+
+    1 prog_start: program .
+
+    $default  reduce using rule 1 (prog_start)
+
+
+State 3
+
+    0 $accept: prog_start $end .
+
+    $default  accept
