@@ -55,9 +55,9 @@ extern int yydebug;
     SEMICOLON = 265,
     COLON = 266,
     COMMA = 267,
-    L_SQ_BRACKET = 268,
+    L_SQUARE_BRACKET = 268,
     MOD = 269,
-    R_SQ_BRACKET = 270,
+    R_SQUARE_BRACKET = 270,
     FUNCTION = 271,
     BEGIN_PARAMS = 272,
     WHILE = 273,
@@ -81,35 +81,37 @@ extern int yydebug;
     WRITE = 291,
     AND = 292,
     OR = 293,
-    NOT = 294,
-    TRUE = 295,
-    RETURN = 296,
-    ADD = 297,
-    SUB = 298,
-    MULT = 299,
-    LTE = 300,
-    GTE = 301,
-    INDENTIFIER = 302,
-    NUMBER = 303,
-    ASSIGN = 304,
-    FALSE = 305,
-    ERRTOK = 306
+    FOR = 294,
+    NOT = 295,
+    TRUE = 296,
+    RETURN = 297,
+    ADD = 298,
+    SUB = 299,
+    MULT = 300,
+    LTE = 301,
+    GTE = 302,
+    ASSIGN = 303,
+    FALSE = 304,
+    ERRTOK = 305,
+    IDENT = 306,
+    NUMBER = 307
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-#line 23 "mini_l.y" /* yacc.c:1909  */
-union yylval
+
+union YYSTYPE
 {
-#line 23 "mini_l.y" /* yacc.c:1909  */
+#line 27 "mini_l.y" /* yacc.c:1909  */
 
-   char* str;
+        char* str;
+        int num;
 
-#line 110 "y.tab.h" /* yacc.c:1909  */
+#line 112 "y.tab.h" /* yacc.c:1909  */
 };
-#line 23 "mini_l.y" /* yacc.c:1909  */
-typedef union yylval YYSTYPE;
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
