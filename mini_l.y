@@ -41,7 +41,7 @@ prog_start:     /*epsilon*/
                 {printf("prog_start -> functions\n");}
                 ;
 
-ident:       	IDENT
+ident:          IDENT
                 {printf("ident -> IDENT %s\n", $1);}
                 ;
 
@@ -76,10 +76,10 @@ term:           NUMBER
 var:            ident
                 {printf("var -> ident\n");}
                 |
-                IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET
+                identifiers L_SQUARE_BRACKET expression R_SQUARE_BRACKET
                 {printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n");}
                 |
-                IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET
+                identifiers L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET
                 {printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n");}
                 ;
 
@@ -121,6 +121,16 @@ statement:      var ASSIGN expression
                 {printf("statement -> RETURN expression\n");}
 		|
 		var error expression
+		|
+		FOR var error NUMBER SEMICOLON bool_exp SEMICOLON var ASSIGN expression BEGINLOOP statements SEMICOLON ENDLOOP
+		|
+		FOR var error NUMBER error  bool_exp SEMICOLON var ASSIGN expression BEGINLOOP statements SEMICOLON ENDLOOP
+		|
+		FOR var ASSIGN NUMBER SEMICOLON bool_exp error var ASSIGN expression BEGINLOOP statements SEMICOLON ENDLOOP
+		|
+		FOR var ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON var error expression BEGINLOOP statements SEMICOLON ENDLOOP
+		|
+		FOR var ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON var ASSIGN expression BEGINLOOP statements error ENDLOOP
                 ;
 
 statements:     /* epsilon */
@@ -134,10 +144,10 @@ statements:     /* epsilon */
 expression:     mult_expression
                 {printf("expression -> multiplicative_expression\n");}
                 |
-                mult_expression SUB mult_expression
+                mult_expression SUB expression
                 {printf("expression -> multiplicative_expression SUB multiplicative_expression\n");}
                 |
-                mult_expression ADD mult_expression
+                mult_expression ADD expression
                 {printf("expression -> multiplicative_expression ADD multiplicative_expression\n");}
                 ;
 
@@ -152,12 +162,6 @@ mult_expression: term
                 |
                 term DIV term
                 {printf("multiplicative_expression -> term DIV term\n");}
-		|
-		term ADD term
-		{printf("multiplicative_expression -> term ADD term\n");}
-		|
-		term SUB term
-		{printf("multiplicative_expression -> term SUB term\n");}
                 ;
 
 relation_exp:   expression comparison expression
@@ -196,7 +200,7 @@ relation_and_exp: relation_exp
 bool_exp:       relation_and_exp
                 {printf("bool_exp -> relation_and_exp\n");}
                 |
-                relation_and_exp OR relation_and_exp
+                relation_and_exp OR bool_exp
                 {printf("bool_exp -> relation_and_exp OR relation_and_exp\n");}
                 ;
 
@@ -222,22 +226,30 @@ comparison:     LT
 
 
 identifiers:    IDENT
-                {printf("identifiers -> ident\n");}
-                |
-                identifiers COMMA IDENT
-                {printf("identifiers -> ident COMMA identifiers\n");}
+                {printf("ident -> IDENT %s\n", $1);}
                 ;
 
-declaration:    identifiers COLON INTEGER
+ids:		identifiers
+                {printf("identifiers -> ident\n");}
+		|
+                identifiers COMMA ids
+                {printf("identifiers -> ident COMMA identifiers\n");}
+                ;	
+
+declaration:    ids COLON INTEGER
                 {printf("declaration -> identifiers COLON INTEGER\n");}
                 |
-                identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
+		ids error INTEGER
+		|
+                ids COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
                 {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
                 |
-                identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
+		ids error ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
+		|
+                ids COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
                 {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
 		|
-		identifiers error INTEGER
+		ids error ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
                 ;
 
 declarations:   /* epsilon */
@@ -245,12 +257,16 @@ declarations:   /* epsilon */
                 |
                 declaration SEMICOLON declarations
                 {printf("declarations -> declaration SEMICOLON declarations\n");}
-                ;
+		;
 
-function:       FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY
-                {printf("function -> FUNCTION IDENT %s SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n", $2);} /* use 2 because IDENT is second position */
-		|
-		FUNCTION IDENT error BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY
+beginning:	FUNCTION IDENT SEMICOLON
+		{printf("ident -> IDENT %s\n",$2);}
+		;
+
+function:       beginning BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY
+                {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n");}
+                |
+                beginning  error BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY
                 ;
 
 functions:      /* epsilon */
