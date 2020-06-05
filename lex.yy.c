@@ -580,15 +580,13 @@ char *yytext;
 #include <iostream>
 #define YY_DECL yy::parser::symbol_type yylex()
 #include "parser.tab.hh"
-#include <string>
 
-int convert = atoi(yytext);
 static yy::location loc;
-#line 14 "mini_l.lex"
+#line 12 "mini_l.lex"
 #define YY_USER_ACTION loc.columns(yyleng);
 /* your definitions here */
 /* your definitions end */
-#line 592 "lex.yy.c"
+#line 590 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -770,7 +768,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 22 "mini_l.lex"
+#line 20 "mini_l.lex"
 
 
 
@@ -778,7 +776,7 @@ loc.step();
 
 
 	/* your rules here */
-#line 782 "lex.yy.c"
+#line 780 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -863,269 +861,269 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 29 "mini_l.lex"
+#line 27 "mini_l.lex"
 {return yy::parser::make_FUNCTION(loc);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 30 "mini_l.lex"
+#line 28 "mini_l.lex"
 {return yy::parser::make_RETURN(loc);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "mini_l.lex"
+#line 29 "mini_l.lex"
 {return yy::parser::make_BEGIN_PARAMS(loc);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 32 "mini_l.lex"
+#line 30 "mini_l.lex"
 {return yy::parser::make_END_PARAMS(loc);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 33 "mini_l.lex"
+#line 31 "mini_l.lex"
 {return yy::parser::make_BEGIN_LOCALS(loc);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 34 "mini_l.lex"
+#line 32 "mini_l.lex"
 {return yy::parser::make_END_LOCALS(loc);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 35 "mini_l.lex"
+#line 33 "mini_l.lex"
 {return yy::parser::make_BEGIN_BODY(loc);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 36 "mini_l.lex"
+#line 34 "mini_l.lex"
 {return yy::parser::make_END_BODY(loc);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 37 "mini_l.lex"
+#line 35 "mini_l.lex"
 {return yy::parser::make_IF(loc);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 38 "mini_l.lex"
+#line 36 "mini_l.lex"
 {return yy::parser::make_ELSE(loc);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 39 "mini_l.lex"
+#line 37 "mini_l.lex"
 {return yy::parser::make_ENDIF(loc);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 40 "mini_l.lex"
+#line 38 "mini_l.lex"
 {return yy::parser::make_WHILE(loc);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 41 "mini_l.lex"
+#line 39 "mini_l.lex"
 {return yy::parser::make_READ(loc);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 42 "mini_l.lex"
+#line 40 "mini_l.lex"
 {return yy::parser::make_WRITE(loc);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 43 "mini_l.lex"
+#line 41 "mini_l.lex"
 {return yy::parser::make_INTEGER(loc);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 44 "mini_l.lex"
+#line 42 "mini_l.lex"
 {return yy::parser::make_THEN(loc);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 45 "mini_l.lex"
+#line 43 "mini_l.lex"
 {return yy::parser::make_ARRAY(loc);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 46 "mini_l.lex"
+#line 44 "mini_l.lex"
 {return yy::parser::make_OF(loc);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 47 "mini_l.lex"
+#line 45 "mini_l.lex"
 {return yy::parser::make_DO(loc);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 48 "mini_l.lex"
+#line 46 "mini_l.lex"
 {return yy::parser::make_FOR(loc);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 49 "mini_l.lex"
+#line 47 "mini_l.lex"
 {return yy::parser::make_BEGINLOOP(loc);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 50 "mini_l.lex"
+#line 48 "mini_l.lex"
 {return yy::parser::make_ENDLOOP(loc);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 51 "mini_l.lex"
+#line 49 "mini_l.lex"
 {return yy::parser::make_CONTINUE(loc);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 52 "mini_l.lex"
+#line 50 "mini_l.lex"
 {return yy::parser::make_FALSE(loc);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 53 "mini_l.lex"
+#line 51 "mini_l.lex"
 {return yy::parser::make_TRUE(loc);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 54 "mini_l.lex"
+#line 52 "mini_l.lex"
 {return yy::parser::make_L_PAREN(loc);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 55 "mini_l.lex"
+#line 53 "mini_l.lex"
 {return yy::parser::make_R_PAREN(loc);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 56 "mini_l.lex"
+#line 54 "mini_l.lex"
 {return yy::parser::make_L_SQUARE_BRACKET(loc);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 57 "mini_l.lex"
+#line 55 "mini_l.lex"
 {return yy::parser::make_R_SQUARE_BRACKET(loc);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 58 "mini_l.lex"
+#line 56 "mini_l.lex"
 {return yy::parser::make_MULT(loc);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 59 "mini_l.lex"
+#line 57 "mini_l.lex"
 {return yy::parser::make_DIV(loc);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 60 "mini_l.lex"
+#line 58 "mini_l.lex"
 {return yy::parser::make_MOD(loc);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 61 "mini_l.lex"
+#line 59 "mini_l.lex"
 {return yy::parser::make_SUB(loc);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 62 "mini_l.lex"
+#line 60 "mini_l.lex"
 {return yy::parser::make_ADD(loc);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 63 "mini_l.lex"
+#line 61 "mini_l.lex"
 {return yy::parser::make_LT(loc);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 64 "mini_l.lex"
+#line 62 "mini_l.lex"
 {return yy::parser::make_LTE(loc);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 65 "mini_l.lex"
+#line 63 "mini_l.lex"
 {return yy::parser::make_GT(loc);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 66 "mini_l.lex"
+#line 64 "mini_l.lex"
 {return yy::parser::make_GTE(loc);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 67 "mini_l.lex"
+#line 65 "mini_l.lex"
 {return yy::parser::make_EQ(loc);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 68 "mini_l.lex"
+#line 66 "mini_l.lex"
 {return yy::parser::make_NEQ(loc);}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 69 "mini_l.lex"
+#line 67 "mini_l.lex"
 {return yy::parser::make_NOT(loc);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 70 "mini_l.lex"
+#line 68 "mini_l.lex"
 {return yy::parser::make_AND(loc);}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 71 "mini_l.lex"
+#line 69 "mini_l.lex"
 {return yy::parser::make_OR(loc);}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 72 "mini_l.lex"
+#line 70 "mini_l.lex"
 {return yy::parser::make_ASSIGN(loc);}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 73 "mini_l.lex"
+#line 71 "mini_l.lex"
 {return yy::parser::make_SEMICOLON(loc);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 74 "mini_l.lex"
+#line 72 "mini_l.lex"
 {return yy::parser::make_COLON(loc);}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 75 "mini_l.lex"
+#line 73 "mini_l.lex"
 {return yy::parser::make_COMMA(loc);}
 	YY_BREAK
 /*{DIGIT}+        {return yy::parser::make_NUMBER(convert, loc);} /* atoi function but this is c++?? */
 case 48:
 YY_RULE_SETUP
-#line 78 "mini_l.lex"
+#line 76 "mini_l.lex"
 {return yy::parser::make_NUMBER(loc);} 
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 79 "mini_l.lex"
+#line 77 "mini_l.lex"
 {return yy::parser::make_IDENT(yytext, loc);}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 81 "mini_l.lex"
+#line 79 "mini_l.lex"
 {/*ignore whitespace*/ loc.step();}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 82 "mini_l.lex"
+#line 80 "mini_l.lex"
 {/*ignore whitespace*/ loc.step();}
 	YY_BREAK
 case 52:
 /* rule 52 can match eol */
 YY_RULE_SETUP
-#line 83 "mini_l.lex"
+#line 81 "mini_l.lex"
 {loc.step(); loc.lines();}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 84 "mini_l.lex"
+#line 82 "mini_l.lex"
 {loc.step(); loc.lines();}
 	YY_BREAK
 /* use this structure to pass the Token :
@@ -1137,30 +1135,30 @@ YY_RULE_SETUP
 /* if invalid identifier or symbol, then return error */
 case 54:
 YY_RULE_SETUP
-#line 93 "mini_l.lex"
+#line 91 "mini_l.lex"
 {return yy::parser::make_ERRTOK(loc);}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 94 "mini_l.lex"
+#line 92 "mini_l.lex"
 {return yy::parser::make_ERRTOK(loc);}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 95 "mini_l.lex"
+#line 93 "mini_l.lex"
 {return yy::parser::make_ERRTOK(loc);}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 100 "mini_l.lex"
+#line 98 "mini_l.lex"
 {return yy::parser::make_END(loc);}
 	YY_BREAK
 /* your rules end */
 case 57:
 YY_RULE_SETUP
-#line 103 "mini_l.lex"
+#line 101 "mini_l.lex"
 ECHO;
 	YY_BREAK
-#line 1164 "lex.yy.c"
+#line 1162 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2152,7 +2150,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 103 "mini_l.lex"
+#line 101 "mini_l.lex"
 
 
 

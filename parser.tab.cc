@@ -613,7 +613,7 @@ namespace yy {
 
   case 7:
 #line 118 "mini_l.yy" // lalr1.cc:859
-    {cout << "something";}
+    {printf("something");}
 #line 618 "parser.tab.cc" // lalr1.cc:859
     break;
 

@@ -81,7 +81,7 @@ string make_temp() {
 
 %type <dec_type> prog_start function functions declarations statements ident
 %type <string> IDENT 
-	/*%type <int> NUMBER  issues with number*/
+	/* %type <int> NUMBER  issues with number*/
 %%
 
 %start prog_start;
@@ -115,7 +115,7 @@ ident:       	IDENT
                 ;
 
 term:           NUMBER
-                {cout << "something";}
+                {printf("something");}
 		|
                 var
                 {printf("term -> var\n");}
