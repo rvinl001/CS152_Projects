@@ -1,7 +1,14 @@
 function test;
 beginparams
+  k : integer;
 endparams
 beginlocals
+  n : integer;
+  i, k: integer;
+  t : array [20] of integer;
 endlocals
 beginbody
+  read i;
+  k := 0;
+  n := 20;
 endbody

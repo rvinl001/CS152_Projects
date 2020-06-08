@@ -932,7 +932,7 @@ YY_RULE_SETUP
 case 15:
 YY_RULE_SETUP
 #line 41 "mini_l.lex"
-{return yy::parser::make_INTEGER(loc);}
+{return yy::parser::make_INTEGER(yytext,loc);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
@@ -987,77 +987,77 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 52 "mini_l.lex"
-{return yy::parser::make_L_PAREN(loc);}
+{return yy::parser::make_L_PAREN(yytext, loc);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 53 "mini_l.lex"
-{return yy::parser::make_R_PAREN(loc);}
+{return yy::parser::make_R_PAREN(yytext, loc);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 54 "mini_l.lex"
-{return yy::parser::make_L_SQUARE_BRACKET(loc);}
+{return yy::parser::make_L_SQUARE_BRACKET(yytext, loc);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 55 "mini_l.lex"
-{return yy::parser::make_R_SQUARE_BRACKET(loc);}
+{return yy::parser::make_R_SQUARE_BRACKET(yytext, loc);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 56 "mini_l.lex"
-{return yy::parser::make_MULT(loc);}
+{return yy::parser::make_MULT(yytext, loc);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 57 "mini_l.lex"
-{return yy::parser::make_DIV(loc);}
+{return yy::parser::make_DIV(yytext, loc);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 58 "mini_l.lex"
-{return yy::parser::make_MOD(loc);}
+{return yy::parser::make_MOD(yytext, loc);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 59 "mini_l.lex"
-{return yy::parser::make_SUB(loc);}
+{return yy::parser::make_SUB(yytext, loc);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 60 "mini_l.lex"
-{return yy::parser::make_ADD(loc);}
+{return yy::parser::make_ADD(yytext, loc);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 61 "mini_l.lex"
-{return yy::parser::make_LT(loc);}
+{return yy::parser::make_LT(yytext, loc);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 62 "mini_l.lex"
-{return yy::parser::make_LTE(loc);}
+{return yy::parser::make_LTE(yytext, loc);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 63 "mini_l.lex"
-{return yy::parser::make_GT(loc);}
+{return yy::parser::make_GT(yytext, loc);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 64 "mini_l.lex"
-{return yy::parser::make_GTE(loc);}
+{return yy::parser::make_GTE(yytext, loc);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 65 "mini_l.lex"
-{return yy::parser::make_EQ(loc);}
+{return yy::parser::make_EQ(yytext, loc);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 66 "mini_l.lex"
-{return yy::parser::make_NEQ(loc);}
+{return yy::parser::make_NEQ(yytext, loc);}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP

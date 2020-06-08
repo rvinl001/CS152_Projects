@@ -284,20 +284,47 @@ namespace yy {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
-      // INTEGER
       // prog_start
       // function
       // functions
       // ident
+      // integer
+      // number
       // declaration
       // declarations
       // identifiers
+      // term
+      // var
+      // vars
+      // statement
       // statements
+      // expression
+      // mult_expression
+      // relation_exp
+      // relation_and_exp
+      // bool_exp
+      // comparison
       char dummy1[sizeof(dec_type)];
 
       // NUMBER
       char dummy2[sizeof(int)];
 
+      // L_PAREN
+      // R_PAREN
+      // EQ
+      // NEQ
+      // LT
+      // GT
+      // L_SQUARE_BRACKET
+      // MOD
+      // R_SQUARE_BRACKET
+      // INTEGER
+      // DIV
+      // ADD
+      // SUB
+      // MULT
+      // LTE
+      // GTE
       // IDENT
       char dummy3[sizeof(string)];
 };
@@ -489,27 +516,27 @@ namespace yy {
 
     static inline
     symbol_type
-    make_L_PAREN (const location_type& l);
+    make_L_PAREN (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_R_PAREN (const location_type& l);
+    make_R_PAREN (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_EQ (const location_type& l);
+    make_EQ (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_NEQ (const location_type& l);
+    make_NEQ (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_LT (const location_type& l);
+    make_LT (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_GT (const location_type& l);
+    make_GT (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -529,15 +556,15 @@ namespace yy {
 
     static inline
     symbol_type
-    make_L_SQUARE_BRACKET (const location_type& l);
+    make_L_SQUARE_BRACKET (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_MOD (const location_type& l);
+    make_MOD (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_R_SQUARE_BRACKET (const location_type& l);
+    make_R_SQUARE_BRACKET (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -569,7 +596,7 @@ namespace yy {
 
     static inline
     symbol_type
-    make_INTEGER (const dec_type& v, const location_type& l);
+    make_INTEGER (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -597,7 +624,7 @@ namespace yy {
 
     static inline
     symbol_type
-    make_DIV (const location_type& l);
+    make_DIV (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -649,23 +676,23 @@ namespace yy {
 
     static inline
     symbol_type
-    make_ADD (const location_type& l);
+    make_ADD (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_SUB (const location_type& l);
+    make_SUB (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_MULT (const location_type& l);
+    make_MULT (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_LTE (const location_type& l);
+    make_LTE (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_GTE (const location_type& l);
+    make_GTE (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -772,7 +799,7 @@ namespace yy {
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const short int yycheck_[];
+  static const unsigned char yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -893,7 +920,7 @@ namespace yy {
     {
       yyeof_ = 0,
       yylast_ = 177,     ///< Last index in yytable_.
-      yynnts_ = 19,  ///< Number of nonterminal symbols.
+      yynnts_ = 21,  ///< Number of nonterminal symbols.
       yyfinal_ = 7, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
@@ -977,15 +1004,26 @@ namespace yy {
   {
       switch (other.type_get ())
     {
-      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 58: // declaration
-      case 59: // declarations
-      case 60: // identifiers
-      case 65: // statements
+      case 58: // integer
+      case 59: // number
+      case 60: // declaration
+      case 61: // declarations
+      case 62: // identifiers
+      case 63: // term
+      case 64: // var
+      case 65: // vars
+      case 66: // statement
+      case 67: // statements
+      case 68: // expression
+      case 69: // mult_expression
+      case 70: // relation_exp
+      case 71: // relation_and_exp
+      case 72: // bool_exp
+      case 73: // comparison
         value.copy< dec_type > (other.value);
         break;
 
@@ -993,6 +1031,22 @@ namespace yy {
         value.copy< int > (other.value);
         break;
 
+      case 3: // L_PAREN
+      case 4: // R_PAREN
+      case 5: // EQ
+      case 6: // NEQ
+      case 7: // LT
+      case 8: // GT
+      case 13: // L_SQUARE_BRACKET
+      case 14: // MOD
+      case 15: // R_SQUARE_BRACKET
+      case 23: // INTEGER
+      case 30: // DIV
+      case 43: // ADD
+      case 44: // SUB
+      case 45: // MULT
+      case 46: // LTE
+      case 47: // GTE
       case 51: // IDENT
         value.copy< string > (other.value);
         break;
@@ -1014,15 +1068,26 @@ namespace yy {
     (void) v;
       switch (this->type_get ())
     {
-      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 58: // declaration
-      case 59: // declarations
-      case 60: // identifiers
-      case 65: // statements
+      case 58: // integer
+      case 59: // number
+      case 60: // declaration
+      case 61: // declarations
+      case 62: // identifiers
+      case 63: // term
+      case 64: // var
+      case 65: // vars
+      case 66: // statement
+      case 67: // statements
+      case 68: // expression
+      case 69: // mult_expression
+      case 70: // relation_exp
+      case 71: // relation_and_exp
+      case 72: // bool_exp
+      case 73: // comparison
         value.copy< dec_type > (v);
         break;
 
@@ -1030,6 +1095,22 @@ namespace yy {
         value.copy< int > (v);
         break;
 
+      case 3: // L_PAREN
+      case 4: // R_PAREN
+      case 5: // EQ
+      case 6: // NEQ
+      case 7: // LT
+      case 8: // GT
+      case 13: // L_SQUARE_BRACKET
+      case 14: // MOD
+      case 15: // R_SQUARE_BRACKET
+      case 23: // INTEGER
+      case 30: // DIV
+      case 43: // ADD
+      case 44: // SUB
+      case 45: // MULT
+      case 46: // LTE
+      case 47: // GTE
       case 51: // IDENT
         value.copy< string > (v);
         break;
@@ -1096,15 +1177,26 @@ namespace yy {
     // Type destructor.
     switch (yytype)
     {
-      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 58: // declaration
-      case 59: // declarations
-      case 60: // identifiers
-      case 65: // statements
+      case 58: // integer
+      case 59: // number
+      case 60: // declaration
+      case 61: // declarations
+      case 62: // identifiers
+      case 63: // term
+      case 64: // var
+      case 65: // vars
+      case 66: // statement
+      case 67: // statements
+      case 68: // expression
+      case 69: // mult_expression
+      case 70: // relation_exp
+      case 71: // relation_and_exp
+      case 72: // bool_exp
+      case 73: // comparison
         value.template destroy< dec_type > ();
         break;
 
@@ -1112,6 +1204,22 @@ namespace yy {
         value.template destroy< int > ();
         break;
 
+      case 3: // L_PAREN
+      case 4: // R_PAREN
+      case 5: // EQ
+      case 6: // NEQ
+      case 7: // LT
+      case 8: // GT
+      case 13: // L_SQUARE_BRACKET
+      case 14: // MOD
+      case 15: // R_SQUARE_BRACKET
+      case 23: // INTEGER
+      case 30: // DIV
+      case 43: // ADD
+      case 44: // SUB
+      case 45: // MULT
+      case 46: // LTE
+      case 47: // GTE
       case 51: // IDENT
         value.template destroy< string > ();
         break;
@@ -1139,15 +1247,26 @@ namespace yy {
     super_type::move(s);
       switch (this->type_get ())
     {
-      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 58: // declaration
-      case 59: // declarations
-      case 60: // identifiers
-      case 65: // statements
+      case 58: // integer
+      case 59: // number
+      case 60: // declaration
+      case 61: // declarations
+      case 62: // identifiers
+      case 63: // term
+      case 64: // var
+      case 65: // vars
+      case 66: // statement
+      case 67: // statements
+      case 68: // expression
+      case 69: // mult_expression
+      case 70: // relation_exp
+      case 71: // relation_and_exp
+      case 72: // bool_exp
+      case 73: // comparison
         value.move< dec_type > (s.value);
         break;
 
@@ -1155,6 +1274,22 @@ namespace yy {
         value.move< int > (s.value);
         break;
 
+      case 3: // L_PAREN
+      case 4: // R_PAREN
+      case 5: // EQ
+      case 6: // NEQ
+      case 7: // LT
+      case 8: // GT
+      case 13: // L_SQUARE_BRACKET
+      case 14: // MOD
+      case 15: // R_SQUARE_BRACKET
+      case 23: // INTEGER
+      case 30: // DIV
+      case 43: // ADD
+      case 44: // SUB
+      case 45: // MULT
+      case 46: // LTE
+      case 47: // GTE
       case 51: // IDENT
         value.move< string > (s.value);
         break;
@@ -1231,39 +1366,39 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_L_PAREN (const location_type& l)
+  parser::make_L_PAREN (const string& v, const location_type& l)
   {
-    return symbol_type (token::L_PAREN, l);
+    return symbol_type (token::L_PAREN, v, l);
   }
 
   parser::symbol_type
-  parser::make_R_PAREN (const location_type& l)
+  parser::make_R_PAREN (const string& v, const location_type& l)
   {
-    return symbol_type (token::R_PAREN, l);
+    return symbol_type (token::R_PAREN, v, l);
   }
 
   parser::symbol_type
-  parser::make_EQ (const location_type& l)
+  parser::make_EQ (const string& v, const location_type& l)
   {
-    return symbol_type (token::EQ, l);
+    return symbol_type (token::EQ, v, l);
   }
 
   parser::symbol_type
-  parser::make_NEQ (const location_type& l)
+  parser::make_NEQ (const string& v, const location_type& l)
   {
-    return symbol_type (token::NEQ, l);
+    return symbol_type (token::NEQ, v, l);
   }
 
   parser::symbol_type
-  parser::make_LT (const location_type& l)
+  parser::make_LT (const string& v, const location_type& l)
   {
-    return symbol_type (token::LT, l);
+    return symbol_type (token::LT, v, l);
   }
 
   parser::symbol_type
-  parser::make_GT (const location_type& l)
+  parser::make_GT (const string& v, const location_type& l)
   {
-    return symbol_type (token::GT, l);
+    return symbol_type (token::GT, v, l);
   }
 
   parser::symbol_type
@@ -1291,21 +1426,21 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_L_SQUARE_BRACKET (const location_type& l)
+  parser::make_L_SQUARE_BRACKET (const string& v, const location_type& l)
   {
-    return symbol_type (token::L_SQUARE_BRACKET, l);
+    return symbol_type (token::L_SQUARE_BRACKET, v, l);
   }
 
   parser::symbol_type
-  parser::make_MOD (const location_type& l)
+  parser::make_MOD (const string& v, const location_type& l)
   {
-    return symbol_type (token::MOD, l);
+    return symbol_type (token::MOD, v, l);
   }
 
   parser::symbol_type
-  parser::make_R_SQUARE_BRACKET (const location_type& l)
+  parser::make_R_SQUARE_BRACKET (const string& v, const location_type& l)
   {
-    return symbol_type (token::R_SQUARE_BRACKET, l);
+    return symbol_type (token::R_SQUARE_BRACKET, v, l);
   }
 
   parser::symbol_type
@@ -1351,7 +1486,7 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_INTEGER (const dec_type& v, const location_type& l)
+  parser::make_INTEGER (const string& v, const location_type& l)
   {
     return symbol_type (token::INTEGER, v, l);
   }
@@ -1393,9 +1528,9 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_DIV (const location_type& l)
+  parser::make_DIV (const string& v, const location_type& l)
   {
-    return symbol_type (token::DIV, l);
+    return symbol_type (token::DIV, v, l);
   }
 
   parser::symbol_type
@@ -1471,33 +1606,33 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_ADD (const location_type& l)
+  parser::make_ADD (const string& v, const location_type& l)
   {
-    return symbol_type (token::ADD, l);
+    return symbol_type (token::ADD, v, l);
   }
 
   parser::symbol_type
-  parser::make_SUB (const location_type& l)
+  parser::make_SUB (const string& v, const location_type& l)
   {
-    return symbol_type (token::SUB, l);
+    return symbol_type (token::SUB, v, l);
   }
 
   parser::symbol_type
-  parser::make_MULT (const location_type& l)
+  parser::make_MULT (const string& v, const location_type& l)
   {
-    return symbol_type (token::MULT, l);
+    return symbol_type (token::MULT, v, l);
   }
 
   parser::symbol_type
-  parser::make_LTE (const location_type& l)
+  parser::make_LTE (const string& v, const location_type& l)
   {
-    return symbol_type (token::LTE, l);
+    return symbol_type (token::LTE, v, l);
   }
 
   parser::symbol_type
-  parser::make_GTE (const location_type& l)
+  parser::make_GTE (const string& v, const location_type& l)
   {
-    return symbol_type (token::GTE, l);
+    return symbol_type (token::GTE, v, l);
   }
 
   parser::symbol_type
@@ -1533,7 +1668,7 @@ namespace yy {
 
 
 } // yy
-#line 1537 "parser.tab.hh" // lalr1.cc:377
+#line 1672 "parser.tab.hh" // lalr1.cc:377
 
 
 

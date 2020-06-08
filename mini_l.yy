@@ -80,16 +80,20 @@ string make_temp() {
 %left  L_PAREN R_PAREN
 
 %type <dec_type> prog_start function functions declarations statements ident
-%type <dec_type> declaration identifiers INTEGER
-%type <string> IDENT
+%type <dec_type> declaration identifiers integer statement number term var
+%type <dec_type> vars expression mult_expression bool_exp relation_exp
+%type <dec_type> relation_and_exp comparison
+%type <string> IDENT INTEGER L_PAREN R_PAREN SUB ADD  MULT DIV LTE GTE
+%type <string> EQ NEQ LT GT MOD L_SQUARE_BRACKET R_SQUARE_BRACKET
 %type <int> NUMBER
+
 	/* %type <int> NUMBER  issues with number*/
 %%
 
 %start prog_start;
 
 prog_start:     functions
-                {cout << $1.code <<  "\n";}
+                {cout << $1.code << "\n";}
                 ;
 
 function:       FUNCTION ident SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY
@@ -116,22 +120,39 @@ ident:       	IDENT
               	{$$.code = $1;}
                 ;
 
-declaration:    identifiers COLON INTEGER
-                {$$ = $1.code + $3.code;
+integer: 	INTEGER
+		{$$.code = $1;}
+		;
+
+number:		NUMBER
+		{$$.code = $1;}
+		;
+
+declaration:    identifiers COLON integer
+                {$$.code = $1.code + $3.code;
 		 for (int i = 0; i < $1.ids.size(); ++i)
 		 {
 		 	$$.code += ". " + $1.ids[i] + "\n"; /* prints out ". id" then newline  */
 		 }
 		}
                 |
-                identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
-                {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
+                identifiers COLON ARRAY L_SQUARE_BRACKET number R_SQUARE_BRACKET OF integer
+                {$$.code = $1.code + $5.code + $8.code;
+                 for (int i = 0; i < $1.ids.size(); ++i)
+                 {
+                        $$.code += ". []" + $1.ids[i] + ", " + std::to_string(i); /* prints out ". [] id, size of array" then newline  */
+                 }
+
+		}
                 |
-                identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
-                {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
-		|
-		identifiers error INTEGER
-                ;
+                identifiers COLON ARRAY L_SQUARE_BRACKET number R_SQUARE_BRACKET L_SQUARE_BRACKET number R_SQUARE_BRACKET OF integer
+                {$$.code = $1.code + $5.code + $8.code + $11.code;
+                 for (int i = 0; i < $1.ids.size(); ++i)
+                 {
+                        $$.code += ". [][]" + $1.ids[i] + ", " + std::to_string(i); /* prints out ". [] id, size of array" then newline  */
+                 }
+		}
+		;
 
 declarations:   /* epsilon */
                 {$$.code = "";}
@@ -144,60 +165,63 @@ identifiers:    IDENT
                 {$$.code = $1;}
                 |
                 identifiers COMMA IDENT
-                {$$.code = $1.code + $3.code;}
+                {$$.code = $1.code + $3;}
                 ;
 
 
-term:           NUMBER
-                {printf("something");}
+term:           number
+                {$$.code = $1.code;}
 		|
                 var
-                {printf("term -> var\n");}
+                {$$.code = $1.code;}
 		|
 		L_PAREN expression R_PAREN  /* $$.code = $1 + $3   */
-		{cout << "hi";}
+		{$$.code = $1 + $3;}
 		|
 		L_PAREN mult_expression R_PAREN
-		{printf("term -> L_PAREN mult_expression R_PAREN\n");}
+		{$$.code = $1 + $3;}
 		|
-		SUB NUMBER
-                {printf("term -> SUB NUMBER \n");} /* use 1 because NUMBER is in first position */
+		SUB number
+                {$$.code = $1;}
                 |
                 SUB var
-                {printf("term -> SUB var\n");}
+                {$$.code = $1;}
                 |
                 SUB L_PAREN expression R_PAREN
-                {printf("term -> SUB L_PAREN expression R_PAREN\n");}
+                {$$.code = $1 + $2 + $4;}
 		|
 		IDENT L_PAREN expression R_PAREN
-		{printf("term -> IDENT L_PAREN expression R_PAREN\n");}
+		{$$.code = $1 + $2 + $4;}
 		|
 		IDENT L_PAREN mult_expression R_PAREN
-		{printf("term -> IDENT L_PAREN mult_expression R_PAREN\n");}
+		{$$.code += $1 + $2 + $4;}
                 ;
 
 var:            ident
-                {printf("var -> ident\n");}
+                {$$.code = $1.code;}
                 |
                 IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET
-                {printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n");}
+                {$$.code = $1 + $2 + $4;}
                 |
                 IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET
-                {printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n");}
+                {$$.code = $1 + $2 + $4 + $5 + $7;}
                 ;
 
 vars:           var COMMA vars
-                {printf("vars -> var COMMA vars\n");}
+                {$$.code = $1.code + $3.code;}
                 |
                 var
-                {printf("vars -> var\n");}
+                {$$.code = $1.code;}
                 ;
 
 statement:      var ASSIGN expression
-                {printf("statement -> var ASSIGN expression\n");}
+                {$$.code = $1.code + $3.code;
+		}
                 |
                 IF bool_exp THEN statements ENDIF
-                {printf("statement -> IF bool_exp THEN statements ENDIF\n");}
+                {$$.code = $2.code + $4.code;
+		 cout << "?:= " << $2.code << "\n";	
+		}
                 |
                 IF bool_exp THEN statements ELSE statements ENDIF
                 {printf("statement -> IF bool_exp THEN statements ELSE statements ENDIF\n");}
@@ -212,10 +236,14 @@ statement:      var ASSIGN expression
                 {printf("statement -> var ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON var ASSIGN exp BEGINLOOP statements SEMICOLON ENDLOOP\n");}
                 |
 		READ vars
-                {printf("statement -> READ vars\n");}
+                {$$.code = $2.code;
+		 cout << ".< " << $2.code << "\n";
+		}
                 |
                 WRITE vars
-                {printf("statement -> WRITE vars\n");}
+                {$$.code = $2.code;
+		 cout << ".> " << $2.code << "\n";
+		}
                 |
                 CONTINUE
                 {printf("statement -> CONTINUE\n");}
@@ -223,19 +251,19 @@ statement:      var ASSIGN expression
                 RETURN expression
                 {printf("statement -> RETURN expression\n");}
 		|
-		var error expression
+		var ERRTOK expression
                 ;
 
 statements:     /* epsilon */
                 {$$.code = "";}
                 |
                 statement SEMICOLON statements
-                {printf("statements -> statement SEMICOLON statements\n");}
-                ;
+                {$$.code = $1.code + $3.code;}               	
+		;
 
 
 expression:     mult_expression
-                {printf("expression -> multiplicative_expression\n");}
+                {$$.code = $1.code;}
                 |
                 mult_expression SUB mult_expression
                 {printf("expression -> multiplicative_expression SUB multiplicative_expression\n");}
@@ -245,7 +273,7 @@ expression:     mult_expression
                 ;
 
 mult_expression: term
-                {printf("multiplicative_expression -> term\n");}
+                {$$.code = $1.code;}
                 |
                 term MOD term
                 {printf("multiplicative_expression -> term MOD term\n");}
@@ -305,22 +333,22 @@ bool_exp:       relation_and_exp
 
 
 comparison:     LT
-                {printf("comp -> LT\n");}
+                {$$.code = $1;}
                 |
                 GT
-                {printf("comp -> GT\n");}
+                {$$.code = $1;}
                 |
                 EQ
-                {printf("comp -> EQ\n");}
+                {$$.code = $1;}
                 |
                 NEQ
-                {printf("comp -> NEQ\n");}
+                {$$.code = $1;}
                 |
                 LTE
-                {printf("comp -> LTE\n");}
+                {$$.code = $1;}
                 |
                 GTE
-                {printf("comp -> GTE\n");}
+                {$$.code = $1;}
                 ;
 
 

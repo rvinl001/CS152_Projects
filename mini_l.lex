@@ -38,7 +38,7 @@ endif         	{return yy::parser::make_ENDIF(loc);}
 while         	{return yy::parser::make_WHILE(loc);}
 read          	{return yy::parser::make_READ(loc);}
 write         	{return yy::parser::make_WRITE(loc);}
-integer       	{return yy::parser::make_INTEGER(loc);}
+integer       	{return yy::parser::make_INTEGER(yytext,loc);}
 then          	{return yy::parser::make_THEN(loc);}
 array         	{return yy::parser::make_ARRAY(loc);}
 of            	{return yy::parser::make_OF(loc);}
@@ -49,21 +49,21 @@ endloop       	{return yy::parser::make_ENDLOOP(loc);}
 continue      	{return yy::parser::make_CONTINUE(loc);}
 false         	{return yy::parser::make_FALSE(loc);}
 true          	{return yy::parser::make_TRUE(loc);}
-"("             {return yy::parser::make_L_PAREN(loc);}
-")"             {return yy::parser::make_R_PAREN(loc);}
-"["             {return yy::parser::make_L_SQUARE_BRACKET(loc);}
-"]"             {return yy::parser::make_R_SQUARE_BRACKET(loc);}
-"*"             {return yy::parser::make_MULT(loc);}
-"/"             {return yy::parser::make_DIV(loc);}
-"%"             {return yy::parser::make_MOD(loc);}
-"-"             {return yy::parser::make_SUB(loc);}
-"+"             {return yy::parser::make_ADD(loc);}
-"<"             {return yy::parser::make_LT(loc);}
-"<="            {return yy::parser::make_LTE(loc);}
-">"             {return yy::parser::make_GT(loc);}
-">="            {return yy::parser::make_GTE(loc);}
-"=="            {return yy::parser::make_EQ(loc);}
-"<>"            {return yy::parser::make_NEQ(loc);}
+"("             {return yy::parser::make_L_PAREN(yytext, loc);}
+")"             {return yy::parser::make_R_PAREN(yytext, loc);}
+"["             {return yy::parser::make_L_SQUARE_BRACKET(yytext, loc);}
+"]"             {return yy::parser::make_R_SQUARE_BRACKET(yytext, loc);}
+"*"             {return yy::parser::make_MULT(yytext, loc);}
+"/"             {return yy::parser::make_DIV(yytext, loc);}
+"%"             {return yy::parser::make_MOD(yytext, loc);}
+"-"             {return yy::parser::make_SUB(yytext, loc);}
+"+"             {return yy::parser::make_ADD(yytext, loc);}
+"<"             {return yy::parser::make_LT(yytext, loc);}
+"<="            {return yy::parser::make_LTE(yytext, loc);}
+">"             {return yy::parser::make_GT(yytext, loc);}
+">="            {return yy::parser::make_GTE(yytext, loc);}
+"=="            {return yy::parser::make_EQ(yytext, loc);}
+"<>"            {return yy::parser::make_NEQ(yytext, loc);}
 not           	{return yy::parser::make_NOT(loc);}
 and           	{return yy::parser::make_AND(loc);}
 or            	{return yy::parser::make_OR(loc);}
