@@ -73,7 +73,7 @@ or            	{return yy::parser::make_OR(loc);}
 ","             {return yy::parser::make_COMMA(loc);}
 
 	/*{DIGIT}+        {return yy::parser::make_NUMBER(convert, loc);} /* atoi function but this is c++?? */
-{DIGIT}+        {return yy::parser::make_NUMBER(loc);} 
+{DIGIT}+        {return yy::parser::make_NUMBER(atoi(yytext),loc);} 
 [a-zA-Z][a-zA-Z0-9_]*[a-zA-Z0-9]|[a-zA-Z]  {return yy::parser::make_IDENT(yytext, loc);}
 
 [\t]+           {/*ignore whitespace*/ loc.step();}

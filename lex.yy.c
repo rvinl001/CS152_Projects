@@ -1098,7 +1098,7 @@ YY_RULE_SETUP
 case 48:
 YY_RULE_SETUP
 #line 76 "mini_l.lex"
-{return yy::parser::make_NUMBER(loc);} 
+{return yy::parser::make_NUMBER(atoi(yytext),loc);} 
 	YY_BREAK
 case 49:
 YY_RULE_SETUP

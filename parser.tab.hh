@@ -284,16 +284,22 @@ namespace yy {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // INTEGER
       // prog_start
       // function
       // functions
       // ident
-      // statements
+      // declaration
       // declarations
+      // identifiers
+      // statements
       char dummy1[sizeof(dec_type)];
 
+      // NUMBER
+      char dummy2[sizeof(int)];
+
       // IDENT
-      char dummy2[sizeof(string)];
+      char dummy3[sizeof(string)];
 };
 
     /// Symbol semantic values.
@@ -405,6 +411,8 @@ namespace yy {
   basic_symbol (typename Base::kind_type t, const location_type& l);
 
   basic_symbol (typename Base::kind_type t, const dec_type v, const location_type& l);
+
+  basic_symbol (typename Base::kind_type t, const int v, const location_type& l);
 
   basic_symbol (typename Base::kind_type t, const string v, const location_type& l);
 
@@ -561,7 +569,7 @@ namespace yy {
 
     static inline
     symbol_type
-    make_INTEGER (const location_type& l);
+    make_INTEGER (const dec_type& v, const location_type& l);
 
     static inline
     symbol_type
@@ -677,7 +685,7 @@ namespace yy {
 
     static inline
     symbol_type
-    make_NUMBER (const location_type& l);
+    make_NUMBER (const int& v, const location_type& l);
 
 
     /// Build a parser object.
@@ -764,7 +772,7 @@ namespace yy {
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const unsigned char yycheck_[];
+  static const short int yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -884,7 +892,7 @@ namespace yy {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 176,     ///< Last index in yytable_.
+      yylast_ = 177,     ///< Last index in yytable_.
       yynnts_ = 19,  ///< Number of nonterminal symbols.
       yyfinal_ = 7, ///< Termination state number.
       yyterror_ = 1,
@@ -969,13 +977,20 @@ namespace yy {
   {
       switch (other.type_get ())
     {
+      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 62: // statements
-      case 71: // declarations
+      case 58: // declaration
+      case 59: // declarations
+      case 60: // identifiers
+      case 65: // statements
         value.copy< dec_type > (other.value);
+        break;
+
+      case 52: // NUMBER
+        value.copy< int > (other.value);
         break;
 
       case 51: // IDENT
@@ -999,13 +1014,20 @@ namespace yy {
     (void) v;
       switch (this->type_get ())
     {
+      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 62: // statements
-      case 71: // declarations
+      case 58: // declaration
+      case 59: // declarations
+      case 60: // identifiers
+      case 65: // statements
         value.copy< dec_type > (v);
+        break;
+
+      case 52: // NUMBER
+        value.copy< int > (v);
         break;
 
       case 51: // IDENT
@@ -1029,6 +1051,13 @@ namespace yy {
 
   template <typename Base>
   parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const dec_type v, const location_type& l)
+    : Base (t)
+    , value (v)
+    , location (l)
+  {}
+
+  template <typename Base>
+  parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const int v, const location_type& l)
     : Base (t)
     , value (v)
     , location (l)
@@ -1067,13 +1096,20 @@ namespace yy {
     // Type destructor.
     switch (yytype)
     {
+      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 62: // statements
-      case 71: // declarations
+      case 58: // declaration
+      case 59: // declarations
+      case 60: // identifiers
+      case 65: // statements
         value.template destroy< dec_type > ();
+        break;
+
+      case 52: // NUMBER
+        value.template destroy< int > ();
         break;
 
       case 51: // IDENT
@@ -1103,13 +1139,20 @@ namespace yy {
     super_type::move(s);
       switch (this->type_get ())
     {
+      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 62: // statements
-      case 71: // declarations
+      case 58: // declaration
+      case 59: // declarations
+      case 60: // identifiers
+      case 65: // statements
         value.move< dec_type > (s.value);
+        break;
+
+      case 52: // NUMBER
+        value.move< int > (s.value);
         break;
 
       case 51: // IDENT
@@ -1308,9 +1351,9 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_INTEGER (const location_type& l)
+  parser::make_INTEGER (const dec_type& v, const location_type& l)
   {
-    return symbol_type (token::INTEGER, l);
+    return symbol_type (token::INTEGER, v, l);
   }
 
   parser::symbol_type
@@ -1482,15 +1525,15 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_NUMBER (const location_type& l)
+  parser::make_NUMBER (const int& v, const location_type& l)
   {
-    return symbol_type (token::NUMBER, l);
+    return symbol_type (token::NUMBER, v, l);
   }
 
 
 
 } // yy
-#line 1494 "parser.tab.hh" // lalr1.cc:377
+#line 1537 "parser.tab.hh" // lalr1.cc:377
 
 
 

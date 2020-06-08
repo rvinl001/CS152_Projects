@@ -272,13 +272,20 @@ namespace yy {
   {
       switch (that.type_get ())
     {
+      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 62: // statements
-      case 71: // declarations
+      case 58: // declaration
+      case 59: // declarations
+      case 60: // identifiers
+      case 65: // statements
         value.move< dec_type > (that.value);
+        break;
+
+      case 52: // NUMBER
+        value.move< int > (that.value);
         break;
 
       case 51: // IDENT
@@ -300,13 +307,20 @@ namespace yy {
     state = that.state;
       switch (that.type_get ())
     {
+      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 62: // statements
-      case 71: // declarations
+      case 58: // declaration
+      case 59: // declarations
+      case 60: // identifiers
+      case 65: // statements
         value.copy< dec_type > (that.value);
+        break;
+
+      case 52: // NUMBER
+        value.copy< int > (that.value);
         break;
 
       case 51: // IDENT
@@ -541,13 +555,20 @@ namespace yy {
          when using variants.  */
         switch (yyr1_[yyn])
     {
+      case 23: // INTEGER
       case 54: // prog_start
       case 55: // function
       case 56: // functions
       case 57: // ident
-      case 62: // statements
-      case 71: // declarations
+      case 58: // declaration
+      case 59: // declarations
+      case 60: // identifiers
+      case 65: // statements
         yylhs.value.build< dec_type > ();
+        break;
+
+      case 52: // NUMBER
+        yylhs.value.build< int > ();
         break;
 
       case 51: // IDENT
@@ -572,13 +593,13 @@ namespace yy {
           switch (yyn)
             {
   case 2:
-#line 90 "mini_l.yy" // lalr1.cc:859
+#line 92 "mini_l.yy" // lalr1.cc:859
     {cout << yystack_[0].value.as< dec_type > ().code <<  "\n";}
-#line 578 "parser.tab.cc" // lalr1.cc:859
+#line 599 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 3:
-#line 94 "mini_l.yy" // lalr1.cc:859
+#line 96 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = "func " + yystack_[10].value.as< dec_type > ().code + "\n";
 		 yylhs.value.as< dec_type > ().code += yystack_[7].value.as< dec_type > ().code + "\n";
 		 /* for loop for multiple idents  */
@@ -590,389 +611,394 @@ namespace yy {
 		 yylhs.value.as< dec_type > ().code += yystack_[1].value.as< dec_type > ().code + "\n";
 		 yylhs.value.as< dec_type > ().code += "endfunc"; 
 		}
-#line 594 "parser.tab.cc" // lalr1.cc:859
+#line 615 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 4:
-#line 108 "mini_l.yy" // lalr1.cc:859
+#line 110 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = "";}
-#line 600 "parser.tab.cc" // lalr1.cc:859
+#line 621 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 5:
-#line 110 "mini_l.yy" // lalr1.cc:859
+#line 112 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< dec_type > ().code + "\n" + yystack_[0].value.as< dec_type > ().code;}
-#line 606 "parser.tab.cc" // lalr1.cc:859
+#line 627 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 6:
-#line 114 "mini_l.yy" // lalr1.cc:859
+#line 116 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 612 "parser.tab.cc" // lalr1.cc:859
+#line 633 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 7:
-#line 118 "mini_l.yy" // lalr1.cc:859
-    {printf("something");}
-#line 618 "parser.tab.cc" // lalr1.cc:859
+#line 120 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > () = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;
+		 for (int i = 0; i < yystack_[2].value.as< dec_type > ().ids.size(); ++i)
+		 {
+		 	yylhs.value.as< dec_type > ().code += ". " + yystack_[2].value.as< dec_type > ().ids[i] + "\n"; /* prints out ". id" then newline  */
+		 }
+		}
+#line 644 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 8:
-#line 121 "mini_l.yy" // lalr1.cc:859
-    {printf("term -> var\n");}
-#line 624 "parser.tab.cc" // lalr1.cc:859
+#line 128 "mini_l.yy" // lalr1.cc:859
+    {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
+#line 650 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 9:
-#line 124 "mini_l.yy" // lalr1.cc:859
-    {cout << "hi";}
-#line 630 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 10:
-#line 127 "mini_l.yy" // lalr1.cc:859
-    {printf("term -> L_PAREN mult_expression R_PAREN\n");}
-#line 636 "parser.tab.cc" // lalr1.cc:859
+#line 131 "mini_l.yy" // lalr1.cc:859
+    {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
+#line 656 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 11:
-#line 130 "mini_l.yy" // lalr1.cc:859
-    {printf("term -> SUB NUMBER \n");}
-#line 642 "parser.tab.cc" // lalr1.cc:859
+#line 137 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "";}
+#line 662 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 12:
-#line 133 "mini_l.yy" // lalr1.cc:859
-    {printf("term -> SUB var\n");}
-#line 648 "parser.tab.cc" // lalr1.cc:859
+#line 140 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;}
+#line 668 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 13:
-#line 136 "mini_l.yy" // lalr1.cc:859
-    {printf("term -> SUB L_PAREN expression R_PAREN\n");}
-#line 654 "parser.tab.cc" // lalr1.cc:859
+#line 144 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
+#line 674 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 14:
-#line 139 "mini_l.yy" // lalr1.cc:859
-    {printf("term -> IDENT L_PAREN expression R_PAREN\n");}
-#line 660 "parser.tab.cc" // lalr1.cc:859
+#line 147 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< string > ().code;}
+#line 680 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 15:
-#line 142 "mini_l.yy" // lalr1.cc:859
-    {printf("term -> IDENT L_PAREN mult_expression R_PAREN\n");}
-#line 666 "parser.tab.cc" // lalr1.cc:859
+#line 152 "mini_l.yy" // lalr1.cc:859
+    {printf("something");}
+#line 686 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 16:
-#line 146 "mini_l.yy" // lalr1.cc:859
-    {printf("var -> ident\n");}
-#line 672 "parser.tab.cc" // lalr1.cc:859
+#line 155 "mini_l.yy" // lalr1.cc:859
+    {printf("term -> var\n");}
+#line 692 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 17:
-#line 149 "mini_l.yy" // lalr1.cc:859
-    {printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n");}
-#line 678 "parser.tab.cc" // lalr1.cc:859
+#line 158 "mini_l.yy" // lalr1.cc:859
+    {cout << "hi";}
+#line 698 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 18:
-#line 152 "mini_l.yy" // lalr1.cc:859
-    {printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n");}
-#line 684 "parser.tab.cc" // lalr1.cc:859
+#line 161 "mini_l.yy" // lalr1.cc:859
+    {printf("term -> L_PAREN mult_expression R_PAREN\n");}
+#line 704 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 19:
-#line 156 "mini_l.yy" // lalr1.cc:859
-    {printf("vars -> var COMMA vars\n");}
-#line 690 "parser.tab.cc" // lalr1.cc:859
+#line 164 "mini_l.yy" // lalr1.cc:859
+    {printf("term -> SUB NUMBER \n");}
+#line 710 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 20:
-#line 159 "mini_l.yy" // lalr1.cc:859
-    {printf("vars -> var\n");}
-#line 696 "parser.tab.cc" // lalr1.cc:859
+#line 167 "mini_l.yy" // lalr1.cc:859
+    {printf("term -> SUB var\n");}
+#line 716 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 21:
-#line 163 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> var ASSIGN expression\n");}
-#line 702 "parser.tab.cc" // lalr1.cc:859
+#line 170 "mini_l.yy" // lalr1.cc:859
+    {printf("term -> SUB L_PAREN expression R_PAREN\n");}
+#line 722 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 22:
-#line 166 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> IF bool_exp THEN statements ENDIF\n");}
-#line 708 "parser.tab.cc" // lalr1.cc:859
+#line 173 "mini_l.yy" // lalr1.cc:859
+    {printf("term -> IDENT L_PAREN expression R_PAREN\n");}
+#line 728 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 23:
-#line 169 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> IF bool_exp THEN statements ELSE statements ENDIF\n");}
-#line 714 "parser.tab.cc" // lalr1.cc:859
+#line 176 "mini_l.yy" // lalr1.cc:859
+    {printf("term -> IDENT L_PAREN mult_expression R_PAREN\n");}
+#line 734 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 24:
-#line 172 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> WHILE bool_exp BEGINLOOP statements ENDLOOP\n");}
-#line 720 "parser.tab.cc" // lalr1.cc:859
+#line 180 "mini_l.yy" // lalr1.cc:859
+    {printf("var -> ident\n");}
+#line 740 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 25:
-#line 175 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> DO BEGINLOOP statements ENDLOOP WHILE bool_exp\n");}
-#line 726 "parser.tab.cc" // lalr1.cc:859
+#line 183 "mini_l.yy" // lalr1.cc:859
+    {printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n");}
+#line 746 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 26:
-#line 178 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> var ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON var ASSIGN exp BEGINLOOP statements SEMICOLON ENDLOOP\n");}
-#line 732 "parser.tab.cc" // lalr1.cc:859
+#line 186 "mini_l.yy" // lalr1.cc:859
+    {printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n");}
+#line 752 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 27:
-#line 181 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> READ vars\n");}
-#line 738 "parser.tab.cc" // lalr1.cc:859
+#line 190 "mini_l.yy" // lalr1.cc:859
+    {printf("vars -> var COMMA vars\n");}
+#line 758 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 28:
-#line 184 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> WRITE vars\n");}
-#line 744 "parser.tab.cc" // lalr1.cc:859
+#line 193 "mini_l.yy" // lalr1.cc:859
+    {printf("vars -> var\n");}
+#line 764 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 29:
-#line 187 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> CONTINUE\n");}
-#line 750 "parser.tab.cc" // lalr1.cc:859
+#line 197 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> var ASSIGN expression\n");}
+#line 770 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 30:
-#line 190 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> RETURN expression\n");}
-#line 756 "parser.tab.cc" // lalr1.cc:859
+#line 200 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> IF bool_exp THEN statements ENDIF\n");}
+#line 776 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 31:
+#line 203 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> IF bool_exp THEN statements ELSE statements ENDIF\n");}
+#line 782 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 32:
-#line 196 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = "";}
-#line 762 "parser.tab.cc" // lalr1.cc:859
+#line 206 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> WHILE bool_exp BEGINLOOP statements ENDLOOP\n");}
+#line 788 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 33:
-#line 199 "mini_l.yy" // lalr1.cc:859
-    {printf("statements -> statement SEMICOLON statements\n");}
-#line 768 "parser.tab.cc" // lalr1.cc:859
+#line 209 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> DO BEGINLOOP statements ENDLOOP WHILE bool_exp\n");}
+#line 794 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 34:
-#line 204 "mini_l.yy" // lalr1.cc:859
-    {printf("expression -> multiplicative_expression\n");}
-#line 774 "parser.tab.cc" // lalr1.cc:859
+#line 212 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> var ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON var ASSIGN exp BEGINLOOP statements SEMICOLON ENDLOOP\n");}
+#line 800 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 35:
-#line 207 "mini_l.yy" // lalr1.cc:859
-    {printf("expression -> multiplicative_expression SUB multiplicative_expression\n");}
-#line 780 "parser.tab.cc" // lalr1.cc:859
+#line 215 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> READ vars\n");}
+#line 806 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 36:
-#line 210 "mini_l.yy" // lalr1.cc:859
-    {printf("expression -> multiplicative_expression ADD multiplicative_expression\n");}
-#line 786 "parser.tab.cc" // lalr1.cc:859
+#line 218 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> WRITE vars\n");}
+#line 812 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 37:
-#line 214 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term\n");}
-#line 792 "parser.tab.cc" // lalr1.cc:859
+#line 221 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> CONTINUE\n");}
+#line 818 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 38:
-#line 217 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term MOD term\n");}
-#line 798 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 39:
-#line 220 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term MULT term\n");}
-#line 804 "parser.tab.cc" // lalr1.cc:859
+#line 224 "mini_l.yy" // lalr1.cc:859
+    {printf("statement -> RETURN expression\n");}
+#line 824 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 40:
-#line 223 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term DIV term\n");}
-#line 810 "parser.tab.cc" // lalr1.cc:859
+#line 230 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "";}
+#line 830 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 41:
-#line 226 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term ADD term\n");}
-#line 816 "parser.tab.cc" // lalr1.cc:859
+#line 233 "mini_l.yy" // lalr1.cc:859
+    {printf("statements -> statement SEMICOLON statements\n");}
+#line 836 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 42:
-#line 229 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term SUB term\n");}
-#line 822 "parser.tab.cc" // lalr1.cc:859
+#line 238 "mini_l.yy" // lalr1.cc:859
+    {printf("expression -> multiplicative_expression\n");}
+#line 842 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 43:
-#line 233 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> expression comp expression\n");}
-#line 828 "parser.tab.cc" // lalr1.cc:859
+#line 241 "mini_l.yy" // lalr1.cc:859
+    {printf("expression -> multiplicative_expression SUB multiplicative_expression\n");}
+#line 848 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 44:
-#line 236 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> TRUE\n");}
-#line 834 "parser.tab.cc" // lalr1.cc:859
+#line 244 "mini_l.yy" // lalr1.cc:859
+    {printf("expression -> multiplicative_expression ADD multiplicative_expression\n");}
+#line 854 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 45:
-#line 239 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> FALSE\n");}
-#line 840 "parser.tab.cc" // lalr1.cc:859
+#line 248 "mini_l.yy" // lalr1.cc:859
+    {printf("multiplicative_expression -> term\n");}
+#line 860 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 46:
-#line 242 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> L_PAREN bool_exp R_PAREN\n");}
-#line 846 "parser.tab.cc" // lalr1.cc:859
+#line 251 "mini_l.yy" // lalr1.cc:859
+    {printf("multiplicative_expression -> term MOD term\n");}
+#line 866 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 47:
-#line 245 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> NOT expression comp expression\n");}
-#line 852 "parser.tab.cc" // lalr1.cc:859
+#line 254 "mini_l.yy" // lalr1.cc:859
+    {printf("multiplicative_expression -> term MULT term\n");}
+#line 872 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 48:
-#line 248 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> NOT TRUE\n");}
-#line 858 "parser.tab.cc" // lalr1.cc:859
+#line 257 "mini_l.yy" // lalr1.cc:859
+    {printf("multiplicative_expression -> term DIV term\n");}
+#line 878 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 49:
-#line 251 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> NOT FALSE\n");}
-#line 864 "parser.tab.cc" // lalr1.cc:859
+#line 260 "mini_l.yy" // lalr1.cc:859
+    {printf("multiplicative_expression -> term ADD term\n");}
+#line 884 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 50:
-#line 254 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> NOT L_PAREN bool_exp R_PAREN\n");}
-#line 870 "parser.tab.cc" // lalr1.cc:859
+#line 263 "mini_l.yy" // lalr1.cc:859
+    {printf("multiplicative_expression -> term SUB term\n");}
+#line 890 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 51:
-#line 259 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_and_exp -> relation_exp\n");}
-#line 876 "parser.tab.cc" // lalr1.cc:859
+#line 267 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_exp -> expression comp expression\n");}
+#line 896 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 52:
-#line 262 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_and_exp -> relation_exp AND relation_exp\n");}
-#line 882 "parser.tab.cc" // lalr1.cc:859
+#line 270 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_exp -> TRUE\n");}
+#line 902 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 53:
-#line 266 "mini_l.yy" // lalr1.cc:859
-    {printf("bool_exp -> relation_and_exp\n");}
-#line 888 "parser.tab.cc" // lalr1.cc:859
+#line 273 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_exp -> FALSE\n");}
+#line 908 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 54:
-#line 269 "mini_l.yy" // lalr1.cc:859
-    {printf("bool_exp -> relation_and_exp OR relation_and_exp\n");}
-#line 894 "parser.tab.cc" // lalr1.cc:859
+#line 276 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_exp -> L_PAREN bool_exp R_PAREN\n");}
+#line 914 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 55:
-#line 274 "mini_l.yy" // lalr1.cc:859
-    {printf("comp -> LT\n");}
-#line 900 "parser.tab.cc" // lalr1.cc:859
+#line 279 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_exp -> NOT expression comp expression\n");}
+#line 920 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 56:
-#line 277 "mini_l.yy" // lalr1.cc:859
-    {printf("comp -> GT\n");}
-#line 906 "parser.tab.cc" // lalr1.cc:859
+#line 282 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_exp -> NOT TRUE\n");}
+#line 926 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 57:
-#line 280 "mini_l.yy" // lalr1.cc:859
-    {printf("comp -> EQ\n");}
-#line 912 "parser.tab.cc" // lalr1.cc:859
+#line 285 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_exp -> NOT FALSE\n");}
+#line 932 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 58:
-#line 283 "mini_l.yy" // lalr1.cc:859
-    {printf("comp -> NEQ\n");}
-#line 918 "parser.tab.cc" // lalr1.cc:859
+#line 288 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_exp -> NOT L_PAREN bool_exp R_PAREN\n");}
+#line 938 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 59:
-#line 286 "mini_l.yy" // lalr1.cc:859
-    {printf("comp -> LTE\n");}
-#line 924 "parser.tab.cc" // lalr1.cc:859
+#line 293 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_and_exp -> relation_exp\n");}
+#line 944 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 60:
-#line 289 "mini_l.yy" // lalr1.cc:859
-    {printf("comp -> GTE\n");}
-#line 930 "parser.tab.cc" // lalr1.cc:859
+#line 296 "mini_l.yy" // lalr1.cc:859
+    {printf("relation_and_exp -> relation_exp AND relation_exp\n");}
+#line 950 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 61:
-#line 294 "mini_l.yy" // lalr1.cc:859
-    {printf("identifiers -> ident\n");}
-#line 936 "parser.tab.cc" // lalr1.cc:859
+#line 300 "mini_l.yy" // lalr1.cc:859
+    {printf("bool_exp -> relation_and_exp\n");}
+#line 956 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 62:
-#line 297 "mini_l.yy" // lalr1.cc:859
-    {printf("identifiers -> ident COMMA identifiers\n");}
-#line 942 "parser.tab.cc" // lalr1.cc:859
+#line 303 "mini_l.yy" // lalr1.cc:859
+    {printf("bool_exp -> relation_and_exp OR relation_and_exp\n");}
+#line 962 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 63:
-#line 301 "mini_l.yy" // lalr1.cc:859
-    {printf("declaration -> identifiers COLON INTEGER\n");}
-#line 948 "parser.tab.cc" // lalr1.cc:859
+#line 308 "mini_l.yy" // lalr1.cc:859
+    {printf("comp -> LT\n");}
+#line 968 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 64:
-#line 304 "mini_l.yy" // lalr1.cc:859
-    {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
-#line 954 "parser.tab.cc" // lalr1.cc:859
+#line 311 "mini_l.yy" // lalr1.cc:859
+    {printf("comp -> GT\n");}
+#line 974 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 65:
-#line 307 "mini_l.yy" // lalr1.cc:859
-    {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
-#line 960 "parser.tab.cc" // lalr1.cc:859
+#line 314 "mini_l.yy" // lalr1.cc:859
+    {printf("comp -> EQ\n");}
+#line 980 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 66:
+#line 317 "mini_l.yy" // lalr1.cc:859
+    {printf("comp -> NEQ\n");}
+#line 986 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 67:
-#line 313 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = "";}
-#line 966 "parser.tab.cc" // lalr1.cc:859
+#line 320 "mini_l.yy" // lalr1.cc:859
+    {printf("comp -> LTE\n");}
+#line 992 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 68:
-#line 316 "mini_l.yy" // lalr1.cc:859
-    {printf("declarations -> declaration SEMICOLON declarations\n");}
-#line 972 "parser.tab.cc" // lalr1.cc:859
+#line 323 "mini_l.yy" // lalr1.cc:859
+    {printf("comp -> GTE\n");}
+#line 998 "parser.tab.cc" // lalr1.cc:859
     break;
 
 
-#line 976 "parser.tab.cc" // lalr1.cc:859
+#line 1002 "parser.tab.cc" // lalr1.cc:859
             default:
               break;
             }
@@ -1227,158 +1253,158 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -57;
+  const signed char parser::yypact_ninf_ = -66;
 
   const signed char parser::yytable_ninf_ = -1;
 
   const short int
   parser::yypact_[] =
   {
-     -13,   -24,    20,   -13,   -57,   -57,    34,   -57,   -57,    31,
-     -22,   -57,    71,    41,    52,    72,     2,    24,   -22,    62,
-     -57,   -57,    81,   -57,   -57,   -22,    51,    66,    89,    84,
-       3,   109,    56,    86,    19,    19,    79,   -57,    61,    61,
-      61,    14,   100,   -57,     9,   104,    95,   105,   -57,    19,
-      36,   -57,    27,   -57,    -1,   -57,   112,   -57,    92,   -12,
-      91,    83,    90,    96,   109,   117,   -57,   -57,    88,    14,
-     -57,    14,    14,    14,   109,   -57,   108,    85,    58,   130,
-      19,   -57,   -57,    92,    14,   -57,   -57,    14,    14,    14,
-      14,    14,    14,   -57,   -57,   -57,   -57,   -57,   -57,    14,
-      14,    14,    19,    19,   109,   109,   113,    61,    97,   133,
-     126,   -57,   -57,   -57,   124,   -57,   -57,   -57,   146,    14,
-     148,   149,    63,   -57,   -57,   -57,   -57,   -57,   -57,   -57,
-     -57,   -57,   -57,   121,    12,   140,   -57,   156,   154,   -57,
-     -57,   -57,   -57,   -57,   -57,   -57,   -57,   109,    19,    19,
-      14,   131,   -57,   158,   155,   -57,    61,   -57,   123,    14,
-     137,   109,   162,   141,   -57
+      -7,   -21,    49,    -7,   -66,   -66,    44,   -66,   -66,    43,
+      21,   -66,    79,    78,    94,    21,    83,    73,    77,    53,
+     -66,    21,   -66,   -66,    96,   -66,   102,    72,   104,   112,
+     103,   -12,    12,    12,    98,   -66,    84,    84,    84,    14,
+     115,   -66,     9,   126,   118,    91,   121,    12,    26,   -66,
+      34,   -66,    15,   -66,    67,   -66,    33,    64,   109,   110,
+     117,   114,   103,   135,   -66,   -66,   105,    14,   -66,    14,
+      14,    14,   103,   -66,   136,   -66,    86,    40,   146,    12,
+     -66,   -66,    33,    14,   -66,   -66,    14,    14,    14,    14,
+      14,    14,   -66,   -66,   -66,   -66,   -66,   -66,    14,    14,
+      14,    12,    12,   103,   103,   119,    84,   106,   151,   141,
+     -66,   -66,   -66,   132,   -66,   -66,   -66,   155,    14,   156,
+     157,    55,   -66,   -66,   -66,   -66,   -66,   -66,   -66,   -66,
+     -66,   -66,   129,    89,   145,   -66,   154,   152,   143,   -66,
+     -66,   -66,   -66,   -66,   -66,   -66,   103,    12,    12,    14,
+     -66,   139,   -66,   158,   159,   -66,    84,   -66,   122,    14,
+     137,   103,   161,   140,   -66
   };
 
   const unsigned char
   parser::yydefact_[] =
   {
        4,     0,     0,     4,     2,     6,     0,     1,     5,     0,
-      67,    61,     0,     0,     0,     0,     0,     0,    67,     0,
-      66,    63,     0,    62,    68,    67,     0,     0,     0,     0,
-       0,    32,     0,     0,     0,     0,     0,    29,     0,     0,
-       0,     0,     6,    16,     0,     0,     0,     0,    64,     0,
-       0,    44,     0,    45,     6,     7,    37,     8,     0,    34,
-      51,    53,     0,     0,    32,    20,    27,    28,     0,     0,
-      30,     0,     0,     0,    32,     3,     0,     0,    34,     0,
-       0,    48,    49,     0,     0,    11,    12,     0,     0,     0,
-       0,     0,     0,    57,    58,    55,    56,    59,    60,     0,
-       0,     0,     0,     0,    32,    32,     0,     0,     0,     0,
-       0,    31,    21,    33,     0,     9,    10,    46,     0,     0,
-       0,     0,     0,    38,    40,    41,    42,    39,    43,    36,
-      35,    52,    54,     0,     0,     0,    19,     0,    17,    65,
-      50,    47,    13,    14,    15,    24,    22,    32,     0,     0,
-       0,     0,    25,     0,     0,    23,     0,    18,     0,     0,
-       0,    32,     0,     0,    26
+      11,    13,     0,     0,     0,    11,     0,     0,     0,     0,
+      12,    11,    10,     7,     0,    14,     0,     0,     0,     0,
+      40,     0,     0,     0,     0,    37,     0,     0,     0,     0,
+       6,    24,     0,     0,     0,     0,     0,     0,     0,    52,
+       0,    53,     6,    15,    45,    16,     0,    42,    59,    61,
+       0,     0,    40,    28,    35,    36,     0,     0,    38,     0,
+       0,     0,    40,     3,     0,     8,     0,    42,     0,     0,
+      56,    57,     0,     0,    19,    20,     0,     0,     0,     0,
+       0,     0,    65,    66,    63,    64,    67,    68,     0,     0,
+       0,     0,     0,    40,    40,     0,     0,     0,     0,     0,
+      39,    29,    41,     0,    17,    18,    54,     0,     0,     0,
+       0,     0,    46,    48,    49,    50,    47,    51,    44,    43,
+      60,    62,     0,     0,     0,    27,     0,    25,     0,    58,
+      55,    21,    22,    23,    32,    30,    40,     0,     0,     0,
+       9,     0,    33,     0,     0,    31,     0,    26,     0,     0,
+       0,    40,     0,     0,    34
   };
 
   const short int
   parser::yypgoto_[] =
   {
-     -57,   -57,   -57,   170,   174,    73,   -31,   -38,   -57,   -51,
-     -35,   -45,   -57,   -56,   -30,    93,   -57,   -57,    -7
+     -66,   -66,   -66,   169,   174,   -66,     6,   -66,   -65,   -30,
+     -35,   -66,   -58,   -36,   -31,   -66,    13,   -28,    95
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
-      -1,     2,     3,     4,    43,    56,    57,    66,    45,    46,
-      58,    59,    60,    61,    62,    99,    12,    13,    14
+      -1,     2,     3,     4,    41,    12,    13,    14,    54,    55,
+      64,    43,    44,    56,    57,    58,    59,    60,    98
   };
 
   const unsigned char
   parser::yytable_[] =
   {
-      44,    67,    87,     1,    78,    63,    70,    65,    65,    68,
-      72,    24,    71,   106,    77,    83,    32,    69,    27,    79,
-       7,    86,    49,   113,    78,    21,    22,     5,    33,    11,
-      84,   100,   101,    44,   109,    78,   110,   111,   112,    80,
-     146,   147,   122,    44,     9,    77,   131,   132,    10,   120,
-     118,    18,   121,   133,   134,   129,   130,    73,    52,    50,
-      51,    19,   116,    52,   128,    54,    55,   144,    53,   136,
-      54,    55,    15,    44,    44,    23,    65,    81,    42,    85,
-      52,    25,    16,    17,   141,    82,    29,    54,    55,   115,
-      93,    94,    95,    96,    26,    20,   151,    93,    94,    95,
-      96,   100,   101,    28,    30,    31,   100,   101,    47,    48,
-     162,    64,    42,    71,    74,   154,    44,    75,   152,   153,
-      76,   103,   104,   105,   160,   158,    88,    34,   102,   107,
-      44,    97,    98,   114,   117,    35,   108,   115,    97,    98,
-      36,   138,    89,    37,    38,    39,   135,   139,    40,   137,
-     140,    41,   142,   143,   145,    90,    91,    92,   148,   155,
-      42,   123,   124,   125,   126,   127,   149,   150,   156,   161,
-     157,   159,   163,     8,   164,     6,   119
+      42,    45,    65,    68,   105,    61,    63,    63,    66,     1,
+      70,    76,    82,    46,   112,    47,    77,    67,    86,    78,
+      85,    20,   122,   123,   124,   125,   126,    26,    69,    79,
+       5,   108,    42,   109,   110,   111,    77,    83,    92,    93,
+      94,    95,    42,    76,   115,   132,   133,   119,    77,     7,
+     120,   117,    48,    49,     9,   121,    50,    71,    50,   143,
+      10,    51,   127,    52,    53,    52,    53,    80,   128,   129,
+      50,   135,    11,    42,    42,    81,    63,    52,    53,    96,
+      97,    87,   140,    99,   100,    40,    84,    16,   151,    15,
+     114,    92,    93,    94,    95,    17,    22,    88,    99,   100,
+      23,    24,    21,   162,    25,    18,    19,    99,   100,    27,
+      89,    90,    91,   154,   130,   131,    42,   145,   146,   152,
+     153,    32,    28,   160,    29,    30,   158,    31,    69,    33,
+      62,    42,    96,    97,    34,    40,    72,    35,    36,    37,
+      73,   104,    38,    74,    75,    39,   101,   106,   102,   103,
+     116,   113,   134,   107,    40,   114,   137,   138,   136,   139,
+     141,   142,   144,   147,   148,   149,   150,   155,   156,   161,
+     159,   163,     8,   164,   157,     6,     0,   118
   };
 
-  const unsigned char
+  const short int
   parser::yycheck_[] =
   {
-      31,    39,     3,    16,    49,    35,    41,    38,    39,    40,
-       1,    18,    13,    64,    49,    50,    13,     3,    25,    49,
-       0,    52,     3,    74,    69,    23,    24,    51,    25,    51,
-       3,    43,    44,    64,    69,    80,    71,    72,    73,     3,
-      28,    29,    87,    74,    10,    80,   102,   103,    17,    84,
-      80,    10,    87,   104,   105,   100,   101,    48,    44,    40,
-      41,     9,     4,    44,    99,    51,    52,     4,    49,   107,
-      51,    52,     1,   104,   105,    51,   107,    41,    51,    52,
-      44,    19,    11,    12,   119,    49,    20,    51,    52,     4,
-       5,     6,     7,     8,    13,    23,   147,     5,     6,     7,
-       8,    43,    44,    52,    15,    21,    43,    44,    52,    23,
-     161,    32,    51,    13,    10,   150,   147,    22,   148,   149,
-      15,    38,    32,    27,   159,   156,    14,    18,    37,    12,
-     161,    46,    47,    25,     4,    26,    48,     4,    46,    47,
-      31,    15,    30,    34,    35,    36,    33,    23,    39,    52,
-       4,    42,     4,     4,    33,    43,    44,    45,    18,    28,
-      51,    88,    89,    90,    91,    92,    10,    13,    10,    32,
-      15,    48,    10,     3,    33,     1,    83
+      30,    13,    37,    39,    62,    33,    36,    37,    38,    16,
+       1,    47,    48,    25,    72,     3,    47,     3,     3,    47,
+      50,    15,    87,    88,    89,    90,    91,    21,    13,     3,
+      51,    67,    62,    69,    70,    71,    67,     3,     5,     6,
+       7,     8,    72,    79,     4,   103,   104,    83,    79,     0,
+      86,    79,    40,    41,    10,    86,    44,    48,    44,     4,
+      17,    49,    98,    51,    52,    51,    52,    41,    99,   100,
+      44,   106,    51,   103,   104,    49,   106,    51,    52,    46,
+      47,    14,   118,    43,    44,    51,    52,     9,   146,    10,
+       4,     5,     6,     7,     8,     1,    23,    30,    43,    44,
+      23,    24,    19,   161,    51,    11,    12,    43,    44,    13,
+      43,    44,    45,   149,   101,   102,   146,    28,    29,   147,
+     148,    18,    20,   159,    52,    21,   156,    15,    13,    26,
+      32,   161,    46,    47,    31,    51,    10,    34,    35,    36,
+      22,    27,    39,    52,    23,    42,    37,    12,    38,    32,
+       4,    15,    33,    48,    51,     4,    15,    25,    52,     4,
+       4,     4,    33,    18,    10,    13,    23,    28,    10,    32,
+      48,    10,     3,    33,    15,     1,    -1,    82
   };
 
   const unsigned char
   parser::yystos_[] =
   {
        0,    16,    54,    55,    56,    51,    57,     0,    56,    10,
-      17,    51,    69,    70,    71,     1,    11,    12,    10,     9,
-      23,    23,    24,    51,    71,    19,    13,    71,    52,    20,
-      15,    21,    13,    25,    18,    26,    31,    34,    35,    36,
-      39,    42,    51,    57,    59,    61,    62,    52,    23,     3,
-      40,    41,    44,    49,    51,    52,    58,    59,    63,    64,
-      65,    66,    67,    67,    32,    59,    60,    60,    59,     3,
-      63,    13,     1,    48,    10,    22,    15,    63,    64,    67,
-       3,    41,    49,    63,     3,    52,    59,     3,    14,    30,
-      43,    44,    45,     5,     6,     7,     8,    46,    47,    68,
-      43,    44,    37,    38,    32,    27,    62,    12,    48,    63,
-      63,    63,    63,    62,    25,     4,     4,     4,    67,    68,
-      63,    63,    64,    58,    58,    58,    58,    58,    63,    64,
-      64,    66,    66,    62,    62,    33,    60,    52,    15,    23,
-       4,    63,     4,     4,     4,    33,    28,    29,    18,    10,
-      13,    62,    67,    67,    63,    28,    10,    15,    59,    48,
-      63,    32,    62,    10,    33
+      17,    51,    58,    59,    60,    10,     9,     1,    11,    12,
+      59,    19,    23,    23,    24,    51,    59,    13,    20,    52,
+      21,    15,    18,    26,    31,    34,    35,    36,    39,    42,
+      51,    57,    62,    64,    65,    13,    25,     3,    40,    41,
+      44,    49,    51,    52,    61,    62,    66,    67,    68,    69,
+      70,    70,    32,    62,    63,    63,    62,     3,    66,    13,
+       1,    48,    10,    22,    52,    23,    66,    67,    70,     3,
+      41,    49,    66,     3,    52,    62,     3,    14,    30,    43,
+      44,    45,     5,     6,     7,     8,    46,    47,    71,    43,
+      44,    37,    38,    32,    27,    65,    12,    48,    66,    66,
+      66,    66,    65,    15,     4,     4,     4,    70,    71,    66,
+      66,    67,    61,    61,    61,    61,    61,    66,    67,    67,
+      69,    69,    65,    65,    33,    63,    52,    15,    25,     4,
+      66,     4,     4,     4,    33,    28,    29,    18,    10,    13,
+      23,    65,    70,    70,    66,    28,    10,    15,    62,    48,
+      66,    32,    65,    10,    33
   };
 
   const unsigned char
   parser::yyr1_[] =
   {
        0,    53,    54,    55,    56,    56,    57,    58,    58,    58,
-      58,    58,    58,    58,    58,    58,    59,    59,    59,    60,
-      60,    61,    61,    61,    61,    61,    61,    61,    61,    61,
-      61,    61,    62,    62,    63,    63,    63,    64,    64,    64,
-      64,    64,    64,    65,    65,    65,    65,    65,    65,    65,
-      65,    66,    66,    67,    67,    68,    68,    68,    68,    68,
-      68,    69,    69,    70,    70,    70,    70,    71,    71
+      58,    59,    59,    60,    60,    61,    61,    61,    61,    61,
+      61,    61,    61,    61,    62,    62,    62,    63,    63,    64,
+      64,    64,    64,    64,    64,    64,    64,    64,    64,    64,
+      65,    65,    66,    66,    66,    67,    67,    67,    67,    67,
+      67,    68,    68,    68,    68,    68,    68,    68,    68,    69,
+      69,    70,    70,    71,    71,    71,    71,    71,    71
   };
 
   const unsigned char
   parser::yyr2_[] =
   {
-       0,     2,     1,    12,     0,     2,     1,     1,     1,     3,
-       3,     2,     2,     4,     4,     4,     1,     4,     7,     3,
-       1,     3,     5,     7,     5,     6,    14,     2,     2,     1,
-       2,     3,     0,     3,     1,     3,     3,     1,     3,     3,
-       3,     3,     3,     3,     1,     1,     3,     4,     2,     2,
-       4,     1,     3,     1,     3,     1,     1,     1,     1,     1,
-       1,     1,     3,     3,     8,    11,     3,     0,     3
+       0,     2,     1,    12,     0,     2,     1,     3,     8,    11,
+       3,     0,     3,     1,     3,     1,     1,     3,     3,     2,
+       2,     4,     4,     4,     1,     4,     7,     3,     1,     3,
+       5,     7,     5,     6,    14,     2,     2,     1,     2,     3,
+       0,     3,     1,     3,     3,     1,     3,     3,     3,     3,
+       3,     3,     1,     1,     3,     4,     2,     2,     4,     1,
+       3,     1,     3,     1,     1,     1,     1,     1,     1
   };
 
 
@@ -1396,23 +1422,23 @@ namespace yy {
   "DIV", "DO", "BEGINLOOP", "ENDLOOP", "CONTINUE", "READ", "WRITE", "AND",
   "OR", "FOR", "NOT", "TRUE", "RETURN", "ADD", "SUB", "MULT", "LTE", "GTE",
   "ASSIGN", "FALSE", "ERRTOK", "IDENT", "NUMBER", "$accept", "prog_start",
-  "function", "functions", "ident", "term", "var", "vars", "statement",
-  "statements", "expression", "mult_expression", "relation_exp",
-  "relation_and_exp", "bool_exp", "comparison", "identifiers",
-  "declaration", "declarations", YY_NULLPTR
+  "function", "functions", "ident", "declaration", "declarations",
+  "identifiers", "term", "var", "vars", "statement", "statements",
+  "expression", "mult_expression", "relation_exp", "relation_and_exp",
+  "bool_exp", "comparison", YY_NULLPTR
   };
 
 #if YYDEBUG
   const unsigned short int
   parser::yyrline_[] =
   {
-       0,    89,    89,    93,   108,   109,   113,   117,   120,   123,
-     126,   129,   132,   135,   138,   141,   145,   148,   151,   155,
-     158,   162,   165,   168,   171,   174,   177,   180,   183,   186,
-     189,   192,   196,   198,   203,   206,   209,   213,   216,   219,
-     222,   225,   228,   232,   235,   238,   241,   244,   247,   250,
-     253,   258,   261,   265,   268,   273,   276,   279,   282,   285,
-     288,   293,   296,   300,   303,   306,   309,   313,   315
+       0,    91,    91,    95,   110,   111,   115,   119,   127,   130,
+     133,   137,   139,   143,   146,   151,   154,   157,   160,   163,
+     166,   169,   172,   175,   179,   182,   185,   189,   192,   196,
+     199,   202,   205,   208,   211,   214,   217,   220,   223,   226,
+     230,   232,   237,   240,   243,   247,   250,   253,   256,   259,
+     262,   266,   269,   272,   275,   278,   281,   284,   287,   292,
+     295,   299,   302,   307,   310,   313,   316,   319,   322
   };
 
   // Print the state stack on the debug stream.
@@ -1447,8 +1473,8 @@ namespace yy {
 
 
 } // yy
-#line 1451 "parser.tab.cc" // lalr1.cc:1167
-#line 319 "mini_l.yy" // lalr1.cc:1168
+#line 1477 "parser.tab.cc" // lalr1.cc:1167
+#line 328 "mini_l.yy" // lalr1.cc:1168
 
 
 int main(int argc, char *argv[])

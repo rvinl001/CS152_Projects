@@ -80,7 +80,9 @@ string make_temp() {
 %left  L_PAREN R_PAREN
 
 %type <dec_type> prog_start function functions declarations statements ident
-%type <string> IDENT 
+%type <dec_type> declaration identifiers INTEGER
+%type <string> IDENT
+%type <int> NUMBER
 	/* %type <int> NUMBER  issues with number*/
 %%
 
@@ -113,6 +115,38 @@ functions:      /* epsilon */
 ident:       	IDENT
               	{$$.code = $1;}
                 ;
+
+declaration:    identifiers COLON INTEGER
+                {$$ = $1.code + $3.code;
+		 for (int i = 0; i < $1.ids.size(); ++i)
+		 {
+		 	$$.code += ". " + $1.ids[i] + "\n"; /* prints out ". id" then newline  */
+		 }
+		}
+                |
+                identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
+                {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
+                |
+                identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
+                {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
+		|
+		identifiers error INTEGER
+                ;
+
+declarations:   /* epsilon */
+                {$$.code = "";}
+                |
+                declaration SEMICOLON declarations
+                {$$.code = $1.code + $3.code;}
+                ;
+
+identifiers:    IDENT
+                {$$.code = $1;}
+                |
+                identifiers COMMA IDENT
+                {$$.code = $1.code + $3.code;}
+                ;
+
 
 term:           NUMBER
                 {printf("something");}
@@ -290,31 +324,6 @@ comparison:     LT
                 ;
 
 
-identifiers:    IDENT
-                {printf("identifiers -> ident\n");}
-                |
-                identifiers COMMA IDENT
-                {printf("identifiers -> ident COMMA identifiers\n");}
-                ;
-
-declaration:    identifiers COLON INTEGER
-                {printf("declaration -> identifiers COLON INTEGER\n");}
-                |
-                identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
-                {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
-                |
-                identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
-                {printf("declaration -> identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
-		|
-		identifiers error INTEGER
-                ;
-
-declarations:   /* epsilon */
-                {$$.code = "";}
-                |
-                declaration SEMICOLON declarations
-                {printf("declarations -> declaration SEMICOLON declarations\n");}
-                ;
 
 %%
 
