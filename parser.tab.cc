@@ -51,10 +51,9 @@
 
 #line 53 "parser.tab.cc" // lalr1.cc:412
 // Unqualified %code blocks.
-#line 36 "mini_l.yy" // lalr1.cc:413
+#line 40 "mini_l.yy" // lalr1.cc:413
 
 #include "parser.tab.hh"
-#include <stdio.h>
 	/* you may need these header files 
 	 * add more header file if you need more
 	 */
@@ -68,15 +67,20 @@ yy::parser::symbol_type yylex();
 	 * list of keywords or any function you may need here */
 
 /* to output "__temp__"  */
-/*int num_temps = 0;
+int num_temps = 0;
 string make_temp() {
-	std::string ret = "__temp__" + itoa(num_temps);
+	std::string ret = "__temp__" + std::to_string(num_temps);
 	num_temps++;
 	return ret;
-}*/	
+}
+
+/* to differentiate idents  */
+std::map<std::string, IdType> symbol_table;	
+
+
 	/* end of your code */
 
-#line 80 "parser.tab.cc" // lalr1.cc:413
+#line 84 "parser.tab.cc" // lalr1.cc:413
 
 
 #ifndef YY_
@@ -162,7 +166,7 @@ string make_temp() {
 
 
 namespace yy {
-#line 166 "parser.tab.cc" // lalr1.cc:479
+#line 170 "parser.tab.cc" // lalr1.cc:479
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -310,11 +314,17 @@ namespace yy {
       case 15: // R_SQUARE_BRACKET
       case 23: // INTEGER
       case 30: // DIV
+      case 34: // CONTINUE
+      case 37: // AND
+      case 38: // OR
+      case 40: // NOT
+      case 41: // TRUE
       case 43: // ADD
       case 44: // SUB
       case 45: // MULT
       case 46: // LTE
       case 47: // GTE
+      case 49: // FALSE
       case 51: // IDENT
         value.move< string > (that.value);
         break;
@@ -372,11 +382,17 @@ namespace yy {
       case 15: // R_SQUARE_BRACKET
       case 23: // INTEGER
       case 30: // DIV
+      case 34: // CONTINUE
+      case 37: // AND
+      case 38: // OR
+      case 40: // NOT
+      case 41: // TRUE
       case 43: // ADD
       case 44: // SUB
       case 45: // MULT
       case 46: // LTE
       case 47: // GTE
+      case 49: // FALSE
       case 51: // IDENT
         value.copy< string > (that.value);
         break;
@@ -647,11 +663,17 @@ namespace yy {
       case 15: // R_SQUARE_BRACKET
       case 23: // INTEGER
       case 30: // DIV
+      case 34: // CONTINUE
+      case 37: // AND
+      case 38: // OR
+      case 40: // NOT
+      case 41: // TRUE
       case 43: // ADD
       case 44: // SUB
       case 45: // MULT
       case 46: // LTE
       case 47: // GTE
+      case 49: // FALSE
       case 51: // IDENT
         yylhs.value.build< string > ();
         break;
@@ -674,13 +696,13 @@ namespace yy {
           switch (yyn)
             {
   case 2:
-#line 96 "mini_l.yy" // lalr1.cc:859
+#line 105 "mini_l.yy" // lalr1.cc:859
     {cout << yystack_[0].value.as< dec_type > ().code << "\n";}
-#line 680 "parser.tab.cc" // lalr1.cc:859
+#line 702 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 3:
-#line 100 "mini_l.yy" // lalr1.cc:859
+#line 109 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = "func " + yystack_[10].value.as< dec_type > ().code + "\n";
 		 yylhs.value.as< dec_type > ().code += yystack_[7].value.as< dec_type > ().code + "\n";
 		 /* for loop for multiple idents  */
@@ -692,424 +714,430 @@ namespace yy {
 		 yylhs.value.as< dec_type > ().code += yystack_[1].value.as< dec_type > ().code + "\n";
 		 yylhs.value.as< dec_type > ().code += "endfunc"; 
 		}
-#line 696 "parser.tab.cc" // lalr1.cc:859
+#line 718 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 4:
-#line 114 "mini_l.yy" // lalr1.cc:859
+#line 123 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = "";}
-#line 702 "parser.tab.cc" // lalr1.cc:859
+#line 724 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 5:
-#line 116 "mini_l.yy" // lalr1.cc:859
+#line 125 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< dec_type > ().code + "\n" + yystack_[0].value.as< dec_type > ().code;}
-#line 708 "parser.tab.cc" // lalr1.cc:859
+#line 730 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 6:
-#line 120 "mini_l.yy" // lalr1.cc:859
+#line 129 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 714 "parser.tab.cc" // lalr1.cc:859
+#line 736 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 7:
-#line 124 "mini_l.yy" // lalr1.cc:859
+#line 133 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 720 "parser.tab.cc" // lalr1.cc:859
+#line 742 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 8:
-#line 128 "mini_l.yy" // lalr1.cc:859
+#line 137 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< int > ();}
-#line 726 "parser.tab.cc" // lalr1.cc:859
+#line 748 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 9:
-#line 132 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;
-		 for (int i = 0; i < yystack_[2].value.as< dec_type > ().ids.size(); ++i)
-		 {
-		 	yylhs.value.as< dec_type > ().code += ". " + yystack_[2].value.as< dec_type > ().ids[i] + "\n"; /* prints out ". id" then newline  */
-		 }
+#line 141 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + "\n";
 		}
-#line 737 "parser.tab.cc" // lalr1.cc:859
+#line 755 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 10:
-#line 140 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[7].value.as< dec_type > ().code + yystack_[3].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;
+#line 145 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[7].value.as< dec_type > ().code + yystack_[3].value.as< dec_type > ().code;
                  for (int i = 0; i < yystack_[7].value.as< dec_type > ().ids.size(); ++i)
                  {
                         yylhs.value.as< dec_type > ().code += ". []" + yystack_[7].value.as< dec_type > ().ids[i] + ", " + std::to_string(i); /* prints out ". [] id, size of array" then newline  */
                  }
 
 		}
-#line 749 "parser.tab.cc" // lalr1.cc:859
+#line 767 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 11:
-#line 149 "mini_l.yy" // lalr1.cc:859
+#line 154 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[10].value.as< dec_type > ().code + yystack_[6].value.as< dec_type > ().code + yystack_[3].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;
                  for (int i = 0; i < yystack_[10].value.as< dec_type > ().ids.size(); ++i)
                  {
                         yylhs.value.as< dec_type > ().code += ". [][]" + yystack_[10].value.as< dec_type > ().ids[i] + ", " + std::to_string(i); /* prints out ". [] id, size of array" then newline  */
                  }
 		}
-#line 760 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 12:
-#line 158 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = "";}
-#line 766 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 13:
-#line 161 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;}
-#line 772 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 14:
-#line 165 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
 #line 778 "parser.tab.cc" // lalr1.cc:859
     break;
 
-  case 15:
-#line 168 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< string > ();}
+  case 12:
+#line 163 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "";}
 #line 784 "parser.tab.cc" // lalr1.cc:859
     break;
 
-  case 16:
-#line 173 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
+  case 13:
+#line 166 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;}
 #line 790 "parser.tab.cc" // lalr1.cc:859
     break;
 
-  case 17:
-#line 176 "mini_l.yy" // lalr1.cc:859
+  case 14:
+#line 170 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = ". " + yystack_[0].value.as< dec_type > ().code;
+		}
+#line 797 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 15:
+#line 174 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;}
+#line 803 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 16:
+#line 179 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
-#line 796 "parser.tab.cc" // lalr1.cc:859
+#line 809 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 17:
+#line 182 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
+#line 815 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 18:
-#line 179 "mini_l.yy" // lalr1.cc:859
+#line 185 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
-#line 802 "parser.tab.cc" // lalr1.cc:859
+#line 821 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 19:
-#line 182 "mini_l.yy" // lalr1.cc:859
+#line 188 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
-#line 808 "parser.tab.cc" // lalr1.cc:859
+#line 827 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 20:
-#line 185 "mini_l.yy" // lalr1.cc:859
+#line 191 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< string > ();}
-#line 814 "parser.tab.cc" // lalr1.cc:859
+#line 833 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 21:
-#line 188 "mini_l.yy" // lalr1.cc:859
+#line 194 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< string > ();}
-#line 820 "parser.tab.cc" // lalr1.cc:859
+#line 839 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 22:
-#line 191 "mini_l.yy" // lalr1.cc:859
+#line 197 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[3].value.as< string > () + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
-#line 826 "parser.tab.cc" // lalr1.cc:859
+#line 845 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 23:
-#line 194 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[3].value.as< string > () + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
-#line 832 "parser.tab.cc" // lalr1.cc:859
+#line 200 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[3].value.as< dec_type > ().code + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
+#line 851 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 24:
-#line 197 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code += yystack_[3].value.as< string > () + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
-#line 838 "parser.tab.cc" // lalr1.cc:859
+#line 203 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code += yystack_[3].value.as< dec_type > ().code + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
+#line 857 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 25:
-#line 201 "mini_l.yy" // lalr1.cc:859
+#line 207 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
-#line 844 "parser.tab.cc" // lalr1.cc:859
+#line 863 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 26:
-#line 204 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[3].value.as< string > () + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
-#line 850 "parser.tab.cc" // lalr1.cc:859
+#line 210 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[3].value.as< dec_type > ().code + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
+#line 869 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 27:
-#line 207 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[6].value.as< string > () + yystack_[5].value.as< string > () + yystack_[3].value.as< string > () + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
-#line 856 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 28:
-#line 211 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;}
-#line 862 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 29:
-#line 214 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
-#line 868 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 30:
-#line 218 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;
-		}
+#line 213 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[6].value.as< dec_type > ().code + yystack_[5].value.as< string > () + yystack_[3].value.as< string > () + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
 #line 875 "parser.tab.cc" // lalr1.cc:859
     break;
 
-  case 31:
-#line 222 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[3].value.as< dec_type > ().code + yystack_[1].value.as< dec_type > ().code;
-		 cout << "?:= " << yystack_[3].value.as< dec_type > ().code << "\n";	
+  case 28:
+#line 217 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;}
+#line 881 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 29:
+#line 220 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
+#line 887 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 30:
+#line 224 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "= " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code + "\n";
 		}
-#line 883 "parser.tab.cc" // lalr1.cc:859
+#line 894 "parser.tab.cc" // lalr1.cc:859
     break;
 
-  case 32:
-#line 227 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> IF bool_exp THEN statements ELSE statements ENDIF\n");}
-#line 889 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 33:
-#line 230 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> WHILE bool_exp BEGINLOOP statements ENDLOOP\n");}
-#line 895 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 34:
-#line 233 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> DO BEGINLOOP statements ENDLOOP WHILE bool_exp\n");}
+  case 31:
+#line 228 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "?:= " + yystack_[3].value.as< dec_type > ().code + ", " + yystack_[1].value.as< dec_type > ().code;	
+		}
 #line 901 "parser.tab.cc" // lalr1.cc:859
     break;
 
-  case 35:
-#line 236 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> var ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON var ASSIGN exp BEGINLOOP statements SEMICOLON ENDLOOP\n");}
+  case 32:
+#line 232 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "?:= " + yystack_[5].value.as< dec_type > ().code + ", " + yystack_[3].value.as< dec_type > ().code + ", " + yystack_[1].value.as< dec_type > ().code;}
 #line 907 "parser.tab.cc" // lalr1.cc:859
     break;
 
+  case 33:
+#line 235 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "?:= " + yystack_[3].value.as< dec_type > ().code + ", " + yystack_[1].value.as< dec_type > ().code;}
+#line 913 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 34:
+#line 238 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "?:= " + yystack_[0].value.as< dec_type > ().code + ", " + yystack_[3].value.as< dec_type > ().code;}
+#line 919 "parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 35:
+#line 241 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "?:= " + yystack_[8].value.as< dec_type > ().code + ", " + yystack_[2].value.as< dec_type > ().code;}
+#line 925 "parser.tab.cc" // lalr1.cc:859
+    break;
+
   case 36:
-#line 239 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;
-		 cout << ".< " << yystack_[0].value.as< dec_type > ().code << "\n";
+#line 244 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = ".< " +  yystack_[0].value.as< dec_type > ().code + "\n";
 		}
-#line 915 "parser.tab.cc" // lalr1.cc:859
+#line 932 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 37:
-#line 244 "mini_l.yy" // lalr1.cc:859
-    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;
-		 cout << ".> " << yystack_[0].value.as< dec_type > ().code << "\n";
+#line 248 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = ".> " + yystack_[0].value.as< dec_type > ().code;
 		}
-#line 923 "parser.tab.cc" // lalr1.cc:859
+#line 939 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 38:
-#line 249 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> CONTINUE\n");}
-#line 929 "parser.tab.cc" // lalr1.cc:859
+#line 252 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "goto " + yystack_[0].value.as< string > () + "\n";}
+#line 945 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 39:
-#line 252 "mini_l.yy" // lalr1.cc:859
-    {printf("statement -> RETURN expression\n");}
-#line 935 "parser.tab.cc" // lalr1.cc:859
+#line 255 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
+#line 951 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 41:
-#line 258 "mini_l.yy" // lalr1.cc:859
+#line 261 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = "";}
-#line 941 "parser.tab.cc" // lalr1.cc:859
+#line 957 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 42:
-#line 261 "mini_l.yy" // lalr1.cc:859
+#line 264 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[2].value.as< dec_type > ().code + yystack_[0].value.as< dec_type > ().code;}
-#line 947 "parser.tab.cc" // lalr1.cc:859
+#line 963 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 43:
-#line 266 "mini_l.yy" // lalr1.cc:859
+#line 269 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
-#line 953 "parser.tab.cc" // lalr1.cc:859
+#line 969 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 44:
-#line 269 "mini_l.yy" // lalr1.cc:859
-    {printf("expression -> multiplicative_expression SUB multiplicative_expression\n");}
-#line 959 "parser.tab.cc" // lalr1.cc:859
+#line 272 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "- " + yystack_[2].value.as< dec_type > ().code + ", "  + yystack_[0].value.as< dec_type > ().code;}
+#line 975 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 45:
-#line 272 "mini_l.yy" // lalr1.cc:859
-    {printf("expression -> multiplicative_expression ADD multiplicative_expression\n");}
-#line 965 "parser.tab.cc" // lalr1.cc:859
+#line 275 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "+ " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;}
+#line 981 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 46:
-#line 276 "mini_l.yy" // lalr1.cc:859
+#line 279 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
-#line 971 "parser.tab.cc" // lalr1.cc:859
+#line 987 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 47:
-#line 279 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term MOD term\n");}
-#line 977 "parser.tab.cc" // lalr1.cc:859
+#line 282 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "% " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;}
+#line 993 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 48:
-#line 282 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term MULT term\n");}
-#line 983 "parser.tab.cc" // lalr1.cc:859
+#line 285 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "* " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code ;}
+#line 999 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 49:
-#line 285 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term DIV term\n");}
-#line 989 "parser.tab.cc" // lalr1.cc:859
+#line 288 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "/ " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;}
+#line 1005 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 50:
-#line 288 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term ADD term\n");}
-#line 995 "parser.tab.cc" // lalr1.cc:859
-    break;
-
-  case 51:
 #line 291 "mini_l.yy" // lalr1.cc:859
-    {printf("multiplicative_expression -> term SUB term\n");}
-#line 1001 "parser.tab.cc" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = "+ " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;}
+#line 1011 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 52:
-#line 295 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> expression comp expression\n");}
-#line 1007 "parser.tab.cc" // lalr1.cc:859
+#line 296 "mini_l.yy" // lalr1.cc:859
+    {if (yystack_[1].value.as< dec_type > ().code == "<") {
+			yylhs.value.as< dec_type > ().code = "< " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;
+		 }
+		 if (yystack_[1].value.as< dec_type > ().code == ">") {
+                        yylhs.value.as< dec_type > ().code = "> " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;
+                 }
+		 if (yystack_[1].value.as< dec_type > ().code == "<=") {
+                        yylhs.value.as< dec_type > ().code = "<= " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;
+                 }
+		 if (yystack_[1].value.as< dec_type > ().code == ">=") {
+                        yylhs.value.as< dec_type > ().code = ">= " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;
+                 }
+                 if (yystack_[1].value.as< dec_type > ().code == "!=") {
+                        yylhs.value.as< dec_type > ().code = "!= " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;
+                 }
+                 if (yystack_[1].value.as< dec_type > ().code == "==") {
+                        yylhs.value.as< dec_type > ().code = "== " + yystack_[2].value.as< dec_type > ().code + ", " + yystack_[0].value.as< dec_type > ().code;
+                 }
+		}
+#line 1035 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 53:
-#line 298 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> TRUE\n");}
-#line 1013 "parser.tab.cc" // lalr1.cc:859
+#line 317 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
+#line 1041 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 54:
-#line 301 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> FALSE\n");}
-#line 1019 "parser.tab.cc" // lalr1.cc:859
+#line 320 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
+#line 1047 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 55:
-#line 304 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> L_PAREN bool_exp R_PAREN\n");}
-#line 1025 "parser.tab.cc" // lalr1.cc:859
+#line 323 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< dec_type > ().code;}
+#line 1053 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 56:
-#line 307 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> NOT expression comp expression\n");}
-#line 1031 "parser.tab.cc" // lalr1.cc:859
+#line 326 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[3].value.as< string > ();}
+#line 1059 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 57:
-#line 310 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> NOT TRUE\n");}
-#line 1037 "parser.tab.cc" // lalr1.cc:859
+#line 329 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< string > () + yystack_[0].value.as< string > ();}
+#line 1065 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 58:
-#line 313 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> NOT FALSE\n");}
-#line 1043 "parser.tab.cc" // lalr1.cc:859
+#line 332 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< string > () + yystack_[0].value.as< string > ();}
+#line 1071 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 59:
-#line 316 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_exp -> NOT L_PAREN bool_exp R_PAREN\n");}
-#line 1049 "parser.tab.cc" // lalr1.cc:859
+#line 335 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[3].value.as< string > () + yystack_[2].value.as< string > () + yystack_[0].value.as< string > ();}
+#line 1077 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 60:
-#line 321 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_and_exp -> relation_exp\n");}
-#line 1055 "parser.tab.cc" // lalr1.cc:859
+#line 340 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
+#line 1083 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 61:
-#line 324 "mini_l.yy" // lalr1.cc:859
-    {printf("relation_and_exp -> relation_exp AND relation_exp\n");}
-#line 1061 "parser.tab.cc" // lalr1.cc:859
+#line 343 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< string > ();}
+#line 1089 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 62:
-#line 328 "mini_l.yy" // lalr1.cc:859
-    {printf("bool_exp -> relation_and_exp\n");}
-#line 1067 "parser.tab.cc" // lalr1.cc:859
+#line 347 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< dec_type > ().code;}
+#line 1095 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 63:
-#line 331 "mini_l.yy" // lalr1.cc:859
-    {printf("bool_exp -> relation_and_exp OR relation_and_exp\n");}
-#line 1073 "parser.tab.cc" // lalr1.cc:859
+#line 350 "mini_l.yy" // lalr1.cc:859
+    {yylhs.value.as< dec_type > ().code = yystack_[1].value.as< string > ();}
+#line 1101 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 64:
-#line 336 "mini_l.yy" // lalr1.cc:859
+#line 355 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 1079 "parser.tab.cc" // lalr1.cc:859
+#line 1107 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 65:
-#line 339 "mini_l.yy" // lalr1.cc:859
+#line 358 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 1085 "parser.tab.cc" // lalr1.cc:859
+#line 1113 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 66:
-#line 342 "mini_l.yy" // lalr1.cc:859
+#line 361 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 1091 "parser.tab.cc" // lalr1.cc:859
+#line 1119 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 67:
-#line 345 "mini_l.yy" // lalr1.cc:859
+#line 364 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 1097 "parser.tab.cc" // lalr1.cc:859
+#line 1125 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 68:
-#line 348 "mini_l.yy" // lalr1.cc:859
+#line 367 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 1103 "parser.tab.cc" // lalr1.cc:859
+#line 1131 "parser.tab.cc" // lalr1.cc:859
     break;
 
   case 69:
-#line 351 "mini_l.yy" // lalr1.cc:859
+#line 370 "mini_l.yy" // lalr1.cc:859
     {yylhs.value.as< dec_type > ().code = yystack_[0].value.as< string > ();}
-#line 1109 "parser.tab.cc" // lalr1.cc:859
+#line 1137 "parser.tab.cc" // lalr1.cc:859
     break;
 
 
-#line 1113 "parser.tab.cc" // lalr1.cc:859
+#line 1141 "parser.tab.cc" // lalr1.cc:859
             default:
               break;
             }
@@ -1364,30 +1392,30 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -59;
+  const signed char parser::yypact_ninf_ = -61;
 
   const signed char parser::yytable_ninf_ = -1;
 
   const short int
   parser::yypact_[] =
   {
-      -6,   -33,    25,    -6,   -59,   -59,    18,   -59,   -59,    42,
-       6,   -59,    62,    72,    78,     6,    92,    68,    36,   -59,
-       6,   -59,   105,   -59,   -59,   101,    60,   106,   -59,   107,
-      99,    -4,    12,    12,    96,   -59,    88,    88,    88,    14,
-     116,   -59,   -24,   122,   120,    60,   121,    12,    26,   -59,
-      34,   -59,    10,   -59,   110,   -59,    33,    58,   108,   109,
-     111,   119,    99,   136,   -59,   -59,   103,    14,   -59,    14,
-      14,    14,    99,   -59,   134,   -59,    90,    40,   148,    12,
-     -59,   -59,    33,    14,   -59,   -59,    14,    14,    14,    14,
-      14,    14,   -59,   -59,   -59,   -59,   -59,   -59,    14,    14,
-      14,    12,    12,    99,    99,   123,    88,   112,   153,   143,
-     -59,   -59,   -59,   135,   -59,   -59,   -59,   155,    14,   157,
-     158,    56,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,
-     -59,   -59,   130,    81,   147,   -59,   156,   154,   121,   -59,
-     -59,   -59,   -59,   -59,   -59,   -59,    99,    12,    12,    14,
-     -59,   140,   -59,   159,   160,   -59,    88,   -59,   124,    14,
-     138,    99,   161,   141,   -59
+      -9,   -41,    16,    -9,   -61,   -61,    14,   -61,   -61,    26,
+     -41,   -61,    42,    46,    20,   -41,    54,    15,   -41,   -61,
+     -41,   -61,    63,   -61,   -61,    71,    59,    98,   -61,   107,
+     127,    -7,    55,    55,   101,   -61,   -41,   -41,   -41,    10,
+     122,    40,   129,   118,    59,   121,    55,    61,   -61,    23,
+     -61,    27,   -61,   104,   -61,   109,    24,   111,   103,   114,
+     123,   127,   139,   -61,   -61,   112,    10,   -61,    10,    10,
+      10,   127,   -61,   149,   -61,    74,     1,   161,    55,   -61,
+     -61,   109,    10,   -61,   -61,    10,    10,    10,    10,    10,
+     -61,   -61,   -61,   -61,   -61,   -61,    10,    10,    10,    55,
+      55,   127,   127,   134,   -41,   116,   166,   156,   -61,   -61,
+     -61,   147,   -61,   -61,   -61,   169,    10,   170,   171,    65,
+     -61,   -61,   -61,   -61,   -61,   -61,   -61,   -61,   -61,   143,
+      97,   159,   -61,   172,   167,   121,   -61,   -61,   -61,   -61,
+     -61,   -61,   -61,   127,    55,    55,    10,   -61,   151,   -61,
+     173,   174,   -61,   -41,   -61,   133,    10,   152,   127,   175,
+     153,   -61
   };
 
   const unsigned char
@@ -1396,104 +1424,108 @@ namespace yy {
        4,     0,     0,     4,     2,     6,     0,     1,     5,     0,
       12,    14,     0,     0,     0,    12,     0,     0,     0,    13,
       12,     7,     0,     9,    15,     0,     0,     0,     8,     0,
-      41,     0,     0,     0,     0,    38,     0,     0,     0,     0,
-       6,    25,     0,     0,     0,     0,     0,     0,     0,    53,
-       0,    54,     6,    16,    46,    17,     0,    43,    60,    62,
-       0,     0,    41,    29,    36,    37,     0,     0,    39,     0,
-       0,     0,    41,     3,     0,    10,     0,    43,     0,     0,
-      57,    58,     0,     0,    20,    21,     0,     0,     0,     0,
-       0,     0,    66,    67,    64,    65,    68,    69,     0,     0,
-       0,     0,     0,    41,    41,     0,     0,     0,     0,     0,
-      30,    40,    42,     0,    18,    19,    55,     0,     0,     0,
-       0,     0,    47,    49,    50,    51,    48,    52,    45,    44,
-      61,    63,     0,     0,     0,    28,     0,    26,     0,    59,
-      56,    22,    23,    24,    33,    31,    41,     0,     0,     0,
-      11,     0,    34,     0,     0,    32,     0,    27,     0,     0,
-       0,    41,     0,     0,    35
+      41,     0,    51,    51,     0,    38,     0,     0,     0,    51,
+      25,     0,     0,     0,     0,     0,    51,    51,    53,     0,
+      54,    25,    16,    46,    17,     0,    43,    60,    62,     0,
+       0,    41,    29,    36,    37,     0,    51,    39,    51,    51,
+      51,    41,     3,     0,    10,     0,    43,     0,    51,    57,
+      58,     0,    51,    20,    21,    51,     0,     0,     0,     0,
+      66,    67,    64,    65,    68,    69,    51,    51,    51,    51,
+      51,    41,    41,     0,     0,     0,     0,     0,    30,    40,
+      42,     0,    18,    19,    55,     0,    51,     0,     0,     0,
+      47,    49,    50,    48,    52,    45,    44,    61,    63,     0,
+       0,     0,    28,     0,    26,     0,    59,    56,    22,    23,
+      24,    33,    31,    41,    51,    51,    51,    11,     0,    34,
+       0,     0,    32,     0,    27,     0,    51,     0,    41,     0,
+       0,    35
   };
 
   const short int
   parser::yypgoto_[] =
   {
-     -59,   -59,   -59,   170,   175,   -45,     4,   -59,     7,   -59,
-      17,   -30,   -35,   -59,   -58,   -36,   -31,   -59,    13,   -28,
-      95
+     -61,   -61,   -61,   184,    -1,   -43,   110,   -61,   -12,   -61,
+      43,   -15,   -33,   -61,   -60,   -19,   -13,   -61,    -6,   -21,
+     113
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
-      -1,     2,     3,     4,    41,    23,    53,    12,    13,    14,
-      54,    55,    64,    43,    44,    56,    57,    58,    59,    60,
-      98
+      -1,     2,     3,     4,    51,    23,    52,    12,    13,    14,
+      53,    54,    63,    42,    43,    55,    56,    57,    58,    59,
+      96
   };
 
   const unsigned char
   parser::yytable_[] =
   {
-      42,    75,    65,    68,   105,    61,    63,    63,    66,    45,
-       1,    76,    82,    86,   112,    47,    77,    67,     5,    78,
-      85,    46,    19,    69,    70,     7,    71,    25,     9,    79,
-      29,   108,    42,   109,   110,   111,    77,    83,    92,    93,
-      94,    95,    42,    76,   115,   132,   133,   119,    77,    74,
-     120,   117,    48,    49,    84,   121,    50,    11,    50,    10,
-     143,    51,   127,    52,    28,    52,    28,    80,   128,   129,
-      50,   135,    15,    42,    42,    81,    63,    52,    28,    96,
-      97,    16,   140,    99,   100,    40,    28,    24,   151,    17,
-      18,    21,    22,   150,   114,    92,    93,    94,    95,    99,
-     100,    99,   100,   162,   122,   123,   124,   125,   126,   145,
-     146,    20,    28,   154,   130,   131,    42,    32,    26,   152,
-     153,    27,    31,   160,    87,    33,   158,    30,    62,    69,
-      34,    42,    72,    35,    36,    37,    96,    97,    38,    40,
-      88,    39,    73,   103,    21,   101,   104,   102,   106,   113,
-      40,   107,   116,    89,    90,    91,   134,   114,   137,   139,
-     138,   141,   142,   144,   136,   147,   148,   149,   155,   156,
-     161,   163,   159,     8,   164,   157,     6,   118
+       6,   103,    74,    19,    64,   113,    44,     1,    25,    11,
+       5,   110,    60,    66,    11,    41,     7,    24,    45,    11,
+      67,    62,    62,    65,     9,    77,    82,    75,    81,    40,
+      85,    17,    18,    76,    84,    40,    40,    40,    21,    22,
+      68,   129,   130,    10,    97,    98,    41,   106,    40,   107,
+     108,   109,    15,    76,    49,    16,    41,   115,    46,    75,
+      40,     5,    28,   117,    78,    76,   118,    97,    98,   140,
+      40,   132,   119,    20,     5,    28,    26,   124,   112,    90,
+      91,    92,    93,   148,   125,   126,    41,    41,    69,    62,
+      70,    27,   147,   127,   128,    47,    48,   137,   159,    49,
+      40,    40,    79,    40,    50,    49,     5,    28,    97,    98,
+      80,    28,     5,    28,    90,    91,    92,    93,    86,    30,
+      94,    95,    31,   149,   150,   142,   143,   151,    41,   120,
+     121,   122,   123,    61,    87,    68,    29,   157,   155,    71,
+      72,   100,    40,    41,    21,    32,   101,    88,    99,    89,
+     102,   104,    40,    33,    73,    94,    95,    40,    34,    83,
+     105,    35,    36,    37,   111,   114,    38,   131,   133,    39,
+     112,   134,   135,   136,   138,   139,   141,   144,     5,   152,
+     146,   156,   145,   153,   158,   160,   161,     8,     0,   154,
+       0,     0,     0,     0,   116
   };
 
-  const unsigned char
+  const short int
   parser::yycheck_[] =
   {
-      30,    46,    37,    39,    62,    33,    36,    37,    38,    13,
-      16,    47,    48,     3,    72,     3,    47,     3,    51,    47,
-      50,    25,    15,    13,    48,     0,    50,    20,    10,     3,
-      26,    67,    62,    69,    70,    71,    67,     3,     5,     6,
-       7,     8,    72,    79,     4,   103,   104,    83,    79,    45,
-      86,    79,    40,    41,    50,    86,    44,    51,    44,    17,
-       4,    49,    98,    51,    52,    51,    52,    41,    99,   100,
-      44,   106,    10,   103,   104,    49,   106,    51,    52,    46,
-      47,     9,   118,    43,    44,    51,    52,    51,   146,    11,
-      12,    23,    24,   138,     4,     5,     6,     7,     8,    43,
-      44,    43,    44,   161,    87,    88,    89,    90,    91,    28,
-      29,    19,    52,   149,   101,   102,   146,    18,    13,   147,
-     148,    20,    15,   159,    14,    26,   156,    21,    32,    13,
-      31,   161,    10,    34,    35,    36,    46,    47,    39,    51,
-      30,    42,    22,    32,    23,    37,    27,    38,    12,    15,
-      51,    48,     4,    43,    44,    45,    33,     4,    15,     4,
-      25,     4,     4,    33,    52,    18,    10,    13,    28,    10,
-      32,    10,    48,     3,    33,    15,     1,    82
+       1,    61,    45,    15,    37,     4,    13,    16,    20,    10,
+      51,    71,    33,     3,    15,    30,     0,    18,    25,    20,
+      39,    36,    37,    38,    10,    46,     3,    46,    47,    30,
+       3,    11,    12,    46,    49,    36,    37,    38,    23,    24,
+      13,   101,   102,    17,    43,    44,    61,    66,    49,    68,
+      69,    70,    10,    66,    44,     9,    71,    78,     3,    78,
+      61,    51,    52,    82,     3,    78,    85,    43,    44,     4,
+      71,   104,    85,    19,    51,    52,    13,    96,     4,     5,
+       6,     7,     8,   143,    97,    98,   101,   102,    48,   104,
+      50,    20,   135,    99,   100,    40,    41,   116,   158,    44,
+     101,   102,    41,   104,    49,    44,    51,    52,    43,    44,
+      49,    52,    51,    52,     5,     6,     7,     8,    14,    21,
+      46,    47,    15,   144,   145,    28,    29,   146,   143,    86,
+      87,    88,    89,    32,    30,    13,    26,   156,   153,    10,
+      22,    38,   143,   158,    23,    18,    32,    43,    37,    45,
+      27,    12,   153,    26,    44,    46,    47,   158,    31,    49,
+      48,    34,    35,    36,    15,     4,    39,    33,    52,    42,
+       4,    15,    25,     4,     4,     4,    33,    18,    51,    28,
+      13,    48,    10,    10,    32,    10,    33,     3,    -1,    15,
+      -1,    -1,    -1,    -1,    81
   };
 
   const unsigned char
   parser::yystos_[] =
   {
        0,    16,    54,    55,    56,    51,    57,     0,    56,    10,
-      17,    51,    60,    61,    62,    10,     9,    11,    12,    61,
-      19,    23,    24,    58,    51,    61,    13,    20,    52,    59,
+      17,    57,    60,    61,    62,    10,     9,    11,    12,    61,
+      19,    23,    24,    58,    57,    61,    13,    20,    52,    59,
       21,    15,    18,    26,    31,    34,    35,    36,    39,    42,
-      51,    57,    64,    66,    67,    13,    25,     3,    40,    41,
-      44,    49,    51,    59,    63,    64,    68,    69,    70,    71,
-      72,    72,    32,    64,    65,    65,    64,     3,    68,    13,
-      48,    50,    10,    22,    59,    58,    68,    69,    72,     3,
-      41,    49,    68,     3,    59,    64,     3,    14,    30,    43,
-      44,    45,     5,     6,     7,     8,    46,    47,    73,    43,
-      44,    37,    38,    32,    27,    67,    12,    48,    68,    68,
-      68,    68,    67,    15,     4,     4,     4,    72,    73,    68,
-      68,    69,    63,    63,    63,    63,    63,    68,    69,    69,
-      71,    71,    67,    67,    33,    65,    52,    15,    25,     4,
-      68,     4,     4,     4,    33,    28,    29,    18,    10,    13,
-      58,    67,    72,    72,    68,    28,    10,    15,    64,    48,
-      68,    32,    67,    10,    33
+      57,    64,    66,    67,    13,    25,     3,    40,    41,    44,
+      49,    57,    59,    63,    64,    68,    69,    70,    71,    72,
+      72,    32,    64,    65,    65,    64,     3,    68,    13,    48,
+      50,    10,    22,    59,    58,    68,    69,    72,     3,    41,
+      49,    68,     3,    59,    64,     3,    14,    30,    43,    45,
+       5,     6,     7,     8,    46,    47,    73,    43,    44,    37,
+      38,    32,    27,    67,    12,    48,    68,    68,    68,    68,
+      67,    15,     4,     4,     4,    72,    73,    68,    68,    69,
+      63,    63,    63,    63,    68,    69,    69,    71,    71,    67,
+      67,    33,    65,    52,    15,    25,     4,    68,     4,     4,
+       4,    33,    28,    29,    18,    10,    13,    58,    67,    72,
+      72,    68,    28,    10,    15,    64,    48,    68,    32,    67,
+      10,    33
   };
 
   const unsigned char
@@ -1516,7 +1548,7 @@ namespace yy {
        2,     2,     4,     4,     4,     1,     4,     7,     3,     1,
        3,     5,     7,     5,     6,    14,     2,     2,     1,     2,
        3,     0,     3,     1,     3,     3,     1,     3,     3,     3,
-       3,     3,     3,     1,     1,     3,     4,     2,     2,     4,
+       3,     0,     3,     1,     1,     3,     4,     2,     2,     4,
        1,     3,     1,     3,     1,     1,     1,     1,     1,     1
   };
 
@@ -1545,13 +1577,13 @@ namespace yy {
   const unsigned short int
   parser::yyrline_[] =
   {
-       0,    95,    95,    99,   114,   115,   119,   123,   127,   131,
-     139,   148,   158,   160,   164,   167,   172,   175,   178,   181,
-     184,   187,   190,   193,   196,   200,   203,   206,   210,   213,
-     217,   221,   226,   229,   232,   235,   238,   243,   248,   251,
-     254,   258,   260,   265,   268,   271,   275,   278,   281,   284,
-     287,   290,   294,   297,   300,   303,   306,   309,   312,   315,
-     320,   323,   327,   330,   335,   338,   341,   344,   347,   350
+       0,   104,   104,   108,   123,   124,   128,   132,   136,   140,
+     144,   153,   163,   165,   169,   173,   178,   181,   184,   187,
+     190,   193,   196,   199,   202,   206,   209,   212,   216,   219,
+     223,   227,   231,   234,   237,   240,   243,   247,   251,   254,
+     257,   261,   263,   268,   271,   274,   278,   281,   284,   287,
+     290,   292,   295,   316,   319,   322,   325,   328,   331,   334,
+     339,   342,   346,   349,   354,   357,   360,   363,   366,   369
   };
 
   // Print the state stack on the debug stream.
@@ -1586,8 +1618,8 @@ namespace yy {
 
 
 } // yy
-#line 1590 "parser.tab.cc" // lalr1.cc:1167
-#line 356 "mini_l.yy" // lalr1.cc:1168
+#line 1622 "parser.tab.cc" // lalr1.cc:1167
+#line 375 "mini_l.yy" // lalr1.cc:1168
 
 
 int main(int argc, char *argv[])

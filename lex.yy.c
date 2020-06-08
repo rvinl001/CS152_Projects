@@ -972,17 +972,17 @@ YY_RULE_SETUP
 case 23:
 YY_RULE_SETUP
 #line 49 "mini_l.lex"
-{return yy::parser::make_CONTINUE(loc);}
+{return yy::parser::make_CONTINUE(yytext, loc);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 50 "mini_l.lex"
-{return yy::parser::make_FALSE(loc);}
+{return yy::parser::make_FALSE(yytext, loc);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 51 "mini_l.lex"
-{return yy::parser::make_TRUE(loc);}
+{return yy::parser::make_TRUE(yytext, loc);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
@@ -1062,17 +1062,17 @@ YY_RULE_SETUP
 case 41:
 YY_RULE_SETUP
 #line 67 "mini_l.lex"
-{return yy::parser::make_NOT(loc);}
+{return yy::parser::make_NOT(yytext, loc);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 68 "mini_l.lex"
-{return yy::parser::make_AND(loc);}
+{return yy::parser::make_AND(yytext ,loc);}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 69 "mini_l.lex"
-{return yy::parser::make_OR(loc);}
+{return yy::parser::make_OR(yytext, loc);}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP

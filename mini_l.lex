@@ -46,9 +46,9 @@ do            	{return yy::parser::make_DO(loc);}
 for		{return yy::parser::make_FOR(loc);}
 beginloop     	{return yy::parser::make_BEGINLOOP(loc);}
 endloop       	{return yy::parser::make_ENDLOOP(loc);}
-continue      	{return yy::parser::make_CONTINUE(loc);}
-false         	{return yy::parser::make_FALSE(loc);}
-true          	{return yy::parser::make_TRUE(loc);}
+continue      	{return yy::parser::make_CONTINUE(yytext, loc);}
+false         	{return yy::parser::make_FALSE(yytext, loc);}
+true          	{return yy::parser::make_TRUE(yytext, loc);}
 "("             {return yy::parser::make_L_PAREN(yytext, loc);}
 ")"             {return yy::parser::make_R_PAREN(yytext, loc);}
 "["             {return yy::parser::make_L_SQUARE_BRACKET(yytext, loc);}
@@ -64,9 +64,9 @@ true          	{return yy::parser::make_TRUE(loc);}
 ">="            {return yy::parser::make_GTE(yytext, loc);}
 "=="            {return yy::parser::make_EQ(yytext, loc);}
 "<>"            {return yy::parser::make_NEQ(yytext, loc);}
-not           	{return yy::parser::make_NOT(loc);}
-and           	{return yy::parser::make_AND(loc);}
-or            	{return yy::parser::make_OR(loc);}
+not           	{return yy::parser::make_NOT(yytext, loc);}
+and           	{return yy::parser::make_AND(yytext ,loc);}
+or            	{return yy::parser::make_OR(yytext, loc);}
 ":="            {return yy::parser::make_ASSIGN(loc);}
 ";"             {return yy::parser::make_SEMICOLON(loc);}
 ":"             {return yy::parser::make_COLON(loc);}

@@ -56,11 +56,15 @@ struct dec_type {
 	std::vector<string> ids;
 };
 
-
+enum IdType {
+        INTEGER,
+        ARRAY,
+        FUNCTION
+};
 
 	/* end the structures for non-terminal types */
 
-#line 64 "parser.tab.hh" // lalr1.cc:377
+#line 68 "parser.tab.hh" // lalr1.cc:377
 
 
 # include <cstdlib> // std::abort
@@ -137,7 +141,7 @@ struct dec_type {
 
 
 namespace yy {
-#line 141 "parser.tab.hh" // lalr1.cc:377
+#line 145 "parser.tab.hh" // lalr1.cc:377
 
 
 
@@ -320,11 +324,17 @@ namespace yy {
       // R_SQUARE_BRACKET
       // INTEGER
       // DIV
+      // CONTINUE
+      // AND
+      // OR
+      // NOT
+      // TRUE
       // ADD
       // SUB
       // MULT
       // LTE
       // GTE
+      // FALSE
       // IDENT
       char dummy3[sizeof(string)];
 };
@@ -640,7 +650,7 @@ namespace yy {
 
     static inline
     symbol_type
-    make_CONTINUE (const location_type& l);
+    make_CONTINUE (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -652,11 +662,11 @@ namespace yy {
 
     static inline
     symbol_type
-    make_AND (const location_type& l);
+    make_AND (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_OR (const location_type& l);
+    make_OR (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -664,11 +674,11 @@ namespace yy {
 
     static inline
     symbol_type
-    make_NOT (const location_type& l);
+    make_NOT (const string& v, const location_type& l);
 
     static inline
     symbol_type
-    make_TRUE (const location_type& l);
+    make_TRUE (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -700,7 +710,7 @@ namespace yy {
 
     static inline
     symbol_type
-    make_FALSE (const location_type& l);
+    make_FALSE (const string& v, const location_type& l);
 
     static inline
     symbol_type
@@ -799,7 +809,7 @@ namespace yy {
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const unsigned char yycheck_[];
+  static const short int yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -919,7 +929,7 @@ namespace yy {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 177,     ///< Last index in yytable_.
+      yylast_ = 194,     ///< Last index in yytable_.
       yynnts_ = 21,  ///< Number of nonterminal symbols.
       yyfinal_ = 7, ///< Termination state number.
       yyterror_ = 1,
@@ -1042,11 +1052,17 @@ namespace yy {
       case 15: // R_SQUARE_BRACKET
       case 23: // INTEGER
       case 30: // DIV
+      case 34: // CONTINUE
+      case 37: // AND
+      case 38: // OR
+      case 40: // NOT
+      case 41: // TRUE
       case 43: // ADD
       case 44: // SUB
       case 45: // MULT
       case 46: // LTE
       case 47: // GTE
+      case 49: // FALSE
       case 51: // IDENT
         value.copy< string > (other.value);
         break;
@@ -1106,11 +1122,17 @@ namespace yy {
       case 15: // R_SQUARE_BRACKET
       case 23: // INTEGER
       case 30: // DIV
+      case 34: // CONTINUE
+      case 37: // AND
+      case 38: // OR
+      case 40: // NOT
+      case 41: // TRUE
       case 43: // ADD
       case 44: // SUB
       case 45: // MULT
       case 46: // LTE
       case 47: // GTE
+      case 49: // FALSE
       case 51: // IDENT
         value.copy< string > (v);
         break;
@@ -1215,11 +1237,17 @@ namespace yy {
       case 15: // R_SQUARE_BRACKET
       case 23: // INTEGER
       case 30: // DIV
+      case 34: // CONTINUE
+      case 37: // AND
+      case 38: // OR
+      case 40: // NOT
+      case 41: // TRUE
       case 43: // ADD
       case 44: // SUB
       case 45: // MULT
       case 46: // LTE
       case 47: // GTE
+      case 49: // FALSE
       case 51: // IDENT
         value.template destroy< string > ();
         break;
@@ -1285,11 +1313,17 @@ namespace yy {
       case 15: // R_SQUARE_BRACKET
       case 23: // INTEGER
       case 30: // DIV
+      case 34: // CONTINUE
+      case 37: // AND
+      case 38: // OR
+      case 40: // NOT
+      case 41: // TRUE
       case 43: // ADD
       case 44: // SUB
       case 45: // MULT
       case 46: // LTE
       case 47: // GTE
+      case 49: // FALSE
       case 51: // IDENT
         value.move< string > (s.value);
         break;
@@ -1552,9 +1586,9 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_CONTINUE (const location_type& l)
+  parser::make_CONTINUE (const string& v, const location_type& l)
   {
-    return symbol_type (token::CONTINUE, l);
+    return symbol_type (token::CONTINUE, v, l);
   }
 
   parser::symbol_type
@@ -1570,15 +1604,15 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_AND (const location_type& l)
+  parser::make_AND (const string& v, const location_type& l)
   {
-    return symbol_type (token::AND, l);
+    return symbol_type (token::AND, v, l);
   }
 
   parser::symbol_type
-  parser::make_OR (const location_type& l)
+  parser::make_OR (const string& v, const location_type& l)
   {
-    return symbol_type (token::OR, l);
+    return symbol_type (token::OR, v, l);
   }
 
   parser::symbol_type
@@ -1588,15 +1622,15 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_NOT (const location_type& l)
+  parser::make_NOT (const string& v, const location_type& l)
   {
-    return symbol_type (token::NOT, l);
+    return symbol_type (token::NOT, v, l);
   }
 
   parser::symbol_type
-  parser::make_TRUE (const location_type& l)
+  parser::make_TRUE (const string& v, const location_type& l)
   {
-    return symbol_type (token::TRUE, l);
+    return symbol_type (token::TRUE, v, l);
   }
 
   parser::symbol_type
@@ -1642,9 +1676,9 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_FALSE (const location_type& l)
+  parser::make_FALSE (const string& v, const location_type& l)
   {
-    return symbol_type (token::FALSE, l);
+    return symbol_type (token::FALSE, v, l);
   }
 
   parser::symbol_type
@@ -1668,7 +1702,7 @@ namespace yy {
 
 
 } // yy
-#line 1672 "parser.tab.hh" // lalr1.cc:377
+#line 1706 "parser.tab.hh" // lalr1.cc:377
 
 
 

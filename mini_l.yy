@@ -27,6 +27,12 @@ struct dec_type {
 };
 
 
+/* to increment certain temps  */
+enum IdType {
+        INTEGER,
+        ARRAY,
+        FUNCTION
+};
 
 	/* end the structures for non-terminal types */
 }
@@ -35,7 +41,6 @@ struct dec_type {
 %code
 {
 #include "parser.tab.hh"
-#include <stdio.h>
 	/* you may need these header files 
 	 * add more header file if you need more
 	 */
@@ -49,12 +54,17 @@ yy::parser::symbol_type yylex();
 	 * list of keywords or any function you may need here */
 
 /* to output "__temp__"  */
-/*int num_temps = 0;
+int num_temps = 0;
 string make_temp() {
-	std::string ret = "__temp__" + itoa(num_temps);
+	std::string ret = "__temp__" + std::to_string(num_temps);
 	num_temps++;
 	return ret;
-}*/	
+}
+
+/* to differentiate idents  */
+std::map<std::string, IdType> symbol_table;	
+
+
 	/* end of your code */
 }
 
@@ -84,10 +94,10 @@ string make_temp() {
 %type <dec_type> vars expression mult_expression bool_exp relation_exp
 %type <dec_type> relation_and_exp comparison
 %type <string> IDENT INTEGER L_PAREN R_PAREN SUB ADD  MULT DIV LTE GTE
-%type <string> EQ NEQ LT GT MOD L_SQUARE_BRACKET R_SQUARE_BRACKET
+%type <string> EQ NEQ LT GT MOD L_SQUARE_BRACKET R_SQUARE_BRACKET CONTINUE
+%type <string> TRUE FALSE NOT OR AND
 %type <int> NUMBER
 
-	/* %type <int> NUMBER  issues with number*/
 %%
 
 %start prog_start;
@@ -129,15 +139,11 @@ number:		NUMBER
 		;
 
 declaration:    identifiers COLON integer
-                {$$.code = $1.code + $3.code;
-		 for (int i = 0; i < $1.ids.size(); ++i)
-		 {
-		 	$$.code += ". " + $1.ids[i] + "\n"; /* prints out ". id" then newline  */
-		 }
+                {$$.code = $1.code + "\n";
 		}
                 |
                 identifiers COLON ARRAY L_SQUARE_BRACKET number R_SQUARE_BRACKET OF integer
-                {$$.code = $1.code + $5.code + $8.code;
+                {$$.code = $1.code + $5.code;
                  for (int i = 0; i < $1.ids.size(); ++i)
                  {
                         $$.code += ". []" + $1.ids[i] + ", " + std::to_string(i); /* prints out ". [] id, size of array" then newline  */
@@ -161,11 +167,12 @@ declarations:   /* epsilon */
                 {$$.code = $1.code + $3.code;}
                 ;
 
-identifiers:    IDENT
-                {$$.code = $1;}
+identifiers:    ident
+                {$$.code = ". " + $1.code;
+		}
                 |
-                identifiers COMMA IDENT
-                {$$.code = $1.code + $3;}
+                identifiers COMMA ident
+                {$$.code = $1.code + $3.code;}
                 ;
 
 
@@ -190,21 +197,21 @@ term:           number
                 SUB L_PAREN expression R_PAREN
                 {$$.code = $1 + $2 + $4;}
 		|
-		IDENT L_PAREN expression R_PAREN
-		{$$.code = $1 + $2 + $4;}
+		ident L_PAREN expression R_PAREN
+		{$$.code = $1.code + $2 + $4;}
 		|
-		IDENT L_PAREN mult_expression R_PAREN
-		{$$.code += $1 + $2 + $4;}
+		ident L_PAREN mult_expression R_PAREN
+		{$$.code += $1.code + $2 + $4;}
                 ;
 
 var:            ident
                 {$$.code = $1.code;}
                 |
-                IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET
-                {$$.code = $1 + $2 + $4;}
+                ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET
+                {$$.code = $1.code + $2 + $4;}
                 |
-                IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET
-                {$$.code = $1 + $2 + $4 + $5 + $7;}
+                ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET L_SQUARE_BRACKET expression R_SQUARE_BRACKET
+                {$$.code = $1.code + $2 + $4 + $5 + $7;}
                 ;
 
 vars:           var COMMA vars
@@ -215,41 +222,38 @@ vars:           var COMMA vars
                 ;
 
 statement:      var ASSIGN expression
-                {$$.code = $1.code + $3.code;
+                {$$.code = "= " + $1.code + ", " + $3.code + "\n";
 		}
                 |
                 IF bool_exp THEN statements ENDIF
-                {$$.code = $2.code + $4.code;
-		 cout << "?:= " << $2.code << "\n";	
+                {$$.code = "?:= " + $2.code + ", " + $4.code;	
 		}
                 |
                 IF bool_exp THEN statements ELSE statements ENDIF
-                {printf("statement -> IF bool_exp THEN statements ELSE statements ENDIF\n");}
+                {$$.code = "?:= " + $2.code + ", " + $4.code + ", " + $6.code;}
                 |
                 WHILE bool_exp BEGINLOOP statements ENDLOOP
-                {printf("statement -> WHILE bool_exp BEGINLOOP statements ENDLOOP\n");}
+                {$$.code = "?:= " + $2.code + ", " + $4.code;}
                 |
                 DO BEGINLOOP statements ENDLOOP WHILE bool_exp
-                {printf("statement -> DO BEGINLOOP statements ENDLOOP WHILE bool_exp\n");}
+                {$$.code = "?:= " + $6.code + ", " + $3.code;}
                 |
                 FOR var ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON var ASSIGN expression BEGINLOOP statements SEMICOLON ENDLOOP
-                {printf("statement -> var ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON var ASSIGN exp BEGINLOOP statements SEMICOLON ENDLOOP\n");}
+                {$$.code = "?:= " + $6.code + ", " + $12.code;}
                 |
 		READ vars
-                {$$.code = $2.code;
-		 cout << ".< " << $2.code << "\n";
+                {$$.code = ".< " +  $2.code + "\n";
 		}
                 |
                 WRITE vars
-                {$$.code = $2.code;
-		 cout << ".> " << $2.code << "\n";
+                {$$.code = ".> " + $2.code;
 		}
                 |
                 CONTINUE
-                {printf("statement -> CONTINUE\n");}
+                {$$.code = "goto " + $1 + "\n";}
                 |
                 RETURN expression
-                {printf("statement -> RETURN expression\n");}
+                {$$.code = $2.code;}
 		|
 		var ERRTOK expression
                 ;
@@ -266,69 +270,85 @@ expression:     mult_expression
                 {$$.code = $1.code;}
                 |
                 mult_expression SUB mult_expression
-                {printf("expression -> multiplicative_expression SUB multiplicative_expression\n");}
+                {$$.code = "- " + $1.code + ", "  + $3.code;}
                 |
                 mult_expression ADD mult_expression
-                {printf("expression -> multiplicative_expression ADD multiplicative_expression\n");}
+                {$$.code = "+ " + $1.code + ", " + $3.code;}
                 ;
 
 mult_expression: term
                 {$$.code = $1.code;}
                 |
                 term MOD term
-                {printf("multiplicative_expression -> term MOD term\n");}
+                {$$.code = "% " + $1.code + ", " + $3.code;}
                 |
                 term MULT term
-                {printf("multiplicative_expression -> term MULT term\n");}
+                {$$.code = "* " + $1.code + ", " + $3.code ;}
                 |
                 term DIV term
-                {printf("multiplicative_expression -> term DIV term\n");}
+                {$$.code = "/ " + $1.code + ", " + $3.code;}
 		|
 		term ADD term
-		{printf("multiplicative_expression -> term ADD term\n");}
+		{$$.code = "+ " + $1.code + ", " + $3.code;}
 		|
-		term SUB term
-		{printf("multiplicative_expression -> term SUB term\n");}
                 ;
 
 relation_exp:   expression comparison expression
-                {printf("relation_exp -> expression comp expression\n");}
+                {if ($2.code == "<") {
+			$$.code = "< " + $1.code + ", " + $3.code;
+		 }
+		 if ($2.code == ">") {
+                        $$.code = "> " + $1.code + ", " + $3.code;
+                 }
+		 if ($2.code == "<=") {
+                        $$.code = "<= " + $1.code + ", " + $3.code;
+                 }
+		 if ($2.code == ">=") {
+                        $$.code = ">= " + $1.code + ", " + $3.code;
+                 }
+                 if ($2.code == "!=") {
+                        $$.code = "!= " + $1.code + ", " + $3.code;
+                 }
+                 if ($2.code == "==") {
+                        $$.code = "== " + $1.code + ", " + $3.code;
+                 }
+		}
                 |
                 TRUE
-                {printf("relation_exp -> TRUE\n");}
+                {$$.code = $1;}
                 |
                 FALSE
-                {printf("relation_exp -> FALSE\n");}
+                {$$.code = $1;}
                 |
 		L_PAREN bool_exp R_PAREN
-		{printf("relation_exp -> L_PAREN bool_exp R_PAREN\n");}
+		{$$.code = $2.code;}
                 |
 		NOT expression comparison expression
-                {printf("relation_exp -> NOT expression comp expression\n");}
+                {$$.code = $1;}
                 |
                 NOT TRUE
-                {printf("relation_exp -> NOT TRUE\n");}
+                {$$.code = $1 + $2;}
                 |
                 NOT FALSE
-                {printf("relation_exp -> NOT FALSE\n");}
+                {$$.code = $1 + $2;}
 		|
 		NOT L_PAREN bool_exp R_PAREN
-                {printf("relation_exp -> NOT L_PAREN bool_exp R_PAREN\n");}
+                {$$.code = $1 + $2 + $4;}
                 ;
 
 
 relation_and_exp: relation_exp
-                 {printf("relation_and_exp -> relation_exp\n");}
+                 {$$.code = $1.code;}
                  |
                  relation_exp AND relation_and_exp
-                 {printf("relation_and_exp -> relation_exp AND relation_exp\n");}
+                 {$$.code = $2;}
                  ;
 
 bool_exp:       relation_and_exp
-                {printf("bool_exp -> relation_and_exp\n");}
+                {$$.code = $1.code;}
                 |
                 relation_and_exp OR relation_and_exp
-                {printf("bool_exp -> relation_and_exp OR relation_and_exp\n");}
+                {$$.code = $2;}
                 ;
 
 

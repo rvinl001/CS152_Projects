@@ -11,4 +11,6 @@ beginbody
   read i;
   k := 0;
   n := 20;
+  if (i < 2) then return 1; endif;
+  n = n + 1;
 endbody
